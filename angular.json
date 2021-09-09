@@ -1,0 +1,154 @@
+{
+  "version": 1,
+  "projects": {
+    "sadarr": {
+      "projectType": "application",
+      "root": "apps/sadarr",
+      "sourceRoot": "apps/sadarr/src",
+      "prefix": "piperopni-entertainment",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/sadarr",
+            "index": "apps/sadarr/src/index.html",
+            "main": "apps/sadarr/src/main.ts",
+            "polyfills": "apps/sadarr/src/polyfills.ts",
+            "tsConfig": "apps/sadarr/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": ["apps/sadarr/src/favicon.ico", "apps/sadarr/src/assets"],
+            "styles": ["apps/sadarr/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/sadarr/src/environments/environment.ts",
+                  "with": "apps/sadarr/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "sadarr:build:production"
+            },
+            "development": {
+              "browserTarget": "sadarr:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "sadarr:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/sadarr/src/**/*.ts",
+              "apps/sadarr/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/sadarr"],
+          "options": {
+            "jestConfig": "apps/sadarr/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "sadarr-e2e": {
+      "root": "apps/sadarr-e2e",
+      "sourceRoot": "apps/sadarr-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/sadarr-e2e/cypress.json",
+            "devServerTarget": "sadarr:serve:development",
+            "tsConfig": "apps/sadarr-e2e/tsconfig.json"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "sadarr:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/sadarr-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular",
+    "packageManager": "npm"
+  },
+  "schematics": {
+    "@nrwl/angular": {
+      "application": {
+        "linter": "eslint"
+      },
+      "library": {
+        "linter": "eslint"
+      },
+      "storybook-configuration": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/angular:application": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:component": {
+      "style": "scss"
+    }
+  },
+  "defaultProject": "sadarr"
+}
