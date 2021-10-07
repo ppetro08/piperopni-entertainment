@@ -1,0 +1,14 @@
+<form [formGroup]="form">
+  <mat-form-field floatLabel="always" appearance="outline">
+    <mat-label>Search</mat-label>
+    <input
+      matInput
+      placeholder="Search for a tv show"
+      formControlName="search"
+    />
+  </mat-form-field>
+</form>
+<!-- TODO: Need loading overlay -->
+<pip-results-container [data]="data" (addClick)="addClicked($event)">
+
+</pip-results-container>

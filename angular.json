@@ -5,7 +5,7 @@
       "projectType": "application",
       "root": "apps/sadarr",
       "sourceRoot": "apps/sadarr/src",
-      "prefix": "piperopni-entertainment",
+      "prefix": "pip",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",

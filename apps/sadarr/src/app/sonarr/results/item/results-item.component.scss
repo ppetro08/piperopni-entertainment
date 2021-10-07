@@ -1,0 +1,91 @@
+// TODO:P - Set static height on container and img
+:host {
+  display: flex;
+  padding: 2em;
+  margin-bottom: 2em;
+  border: 1px solid rgba(255, 255, 255, 0.3); // TODO:P - Figure out how to pull this from angular theme
+  border-radius: 4px;
+  .thumbnail-container {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    img {
+      height: 250px;
+    }
+  }
+  .result-detail {
+    margin-left: 2em;
+    flex: 1;
+    flex-direction: column;
+    display: flex;
+    overflow: hidden;
+  }
+}
+
+.result-detail {
+  .result-detail-title {
+    font-size: 30px;
+  }
+
+  .result-detail-additional-info {
+    padding: 0.5em 0;
+    line-height: 18px;
+    .lozenge {
+      padding: 0.25em .5em;
+      border-radius: 5px;
+      font-size: 12px;
+
+      &.lozenge-primary {
+        // TODO - Figure out how to use theme color
+        background-color: yellow;
+        margin-right: .5em;
+      }
+      &.lozenge-secondary {
+        background-color: lightcoral;
+      }
+    }
+  }
+
+  .result-detail-description {
+    overflow: hidden;
+    max-height: 120px;
+    flex: 1;
+  }
+
+  .result-actions {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1em;
+
+    .result-actions-inputs {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      margin: 0 -0.5em;
+
+      .result-actions-input {
+        flex: 1;
+        padding: 0 0.5em;
+      }
+
+      .all-multi-select {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        .mat-form-field {
+          flex: 1;
+        }
+        .mat-checkbox {
+          margin-right: 0.5em;
+        }
+      }
+    }
+
+    .result-actions-buttons {
+      margin-left: auto;
+      button {
+        margin-left: 1em;
+      }
+    }
+  }
+}

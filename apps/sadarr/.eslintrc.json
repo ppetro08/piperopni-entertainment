@@ -21,7 +21,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "piperopni-entertainment",
+            "prefix": "pip",
             "style": "kebab-case"
           }
         ]

@@ -1,0 +1,49 @@
+<ng-container *ngIf="item" [formGroup]="formGroup">
+  <div class="thumbnail-container">
+    <img [src]="item.remotePoster" />
+  </div>
+  <div class="result-detail">
+    <div class="result-detail-title">{{ item.title }} ({{ item.year }})</div>
+    <div class="result-detail-additional-info">
+      <span class="lozenge lozenge-primary" *ngIf="item.network">{{ item.network }}</span>
+      <span class="lozenge lozenge-secondary" *ngIf="item.status">{{ item.status }}</span>
+    </div>
+    <div class="result-detail-description" [title]="item.overview">
+      {{ item.overview }}
+    </div>
+
+    <!-- TODO:P - Display number of episodes, maybe even more info like episodes missing from seasons -->
+    <div class="result-actions">
+      <div class="result-actions-inputs">
+        <div class="all-multi-select result-actions-input">
+          <mat-checkbox formControlName="all">All</mat-checkbox>
+          <mat-form-field floatLabel="always">
+            <mat-label>Seasons</mat-label>
+            <mat-select multiple formControlName="seasons" required>
+              <mat-option *ngFor="let season of item.seasons" [value]="season.seasonNumber">
+                Season {{ season.seasonNumber }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <mat-form-field class="result-actions-input">
+          <mat-label>Quality</mat-label>
+          <pip-profile-select formControlName="profile"></pip-profile-select>
+        </mat-form-field>
+      </div>
+      <div class="result-actions-buttons">
+        <button
+          *ngIf="!item.monitored"
+          mat-raised-button
+          color="primary"
+          (click)="addClicked(item)"
+        >
+          Add
+        </button>
+        <button mat-raised-button color="primary">Search</button>
+        <!-- TODO:P - Search should update episodes that are unmonitored to monitored -->
+        <!-- TODO:P - Repeated search until nothing is found -->
+      </div>
+    </div>
+  </div>
+</ng-container>
