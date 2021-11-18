@@ -113,7 +113,7 @@ export class ProfileSelectComponent
   }
 
   ngOnInit(): void {
-    this.profiles$ = this.sonarrApiService.getProfiles().pipe(
+    this.profiles$ = this.sonarrApiService.profiles$.pipe(
       tap((profiles: Profile[]) => {
         profiles.forEach((p: Profile) => {
           this._profiles.set(p.id, p);

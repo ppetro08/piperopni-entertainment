@@ -1,7 +1,7 @@
-import { Season } from "../../model/series";
+import { SeasonApi } from "../../model/series-api";
 
 export interface ResultItemFormValue {
     all: boolean;
-    seasons: Season[];
-    profileId: number;
+    seasons: number[];
+    profile: number;
 }

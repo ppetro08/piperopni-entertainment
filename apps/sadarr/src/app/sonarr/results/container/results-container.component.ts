@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { AddEvent, Series } from '../../model/series';
+import { Series, AddEvent } from '../../model/series';
+import { AddSeriesApi, SeriesApi } from '../../model/series-api';
 
 @Component({
   selector: 'pip-results-container',
@@ -17,5 +18,4 @@ export class ResultsContainerComponent  {
   addClicked(item: AddEvent): void {
     this.addClick.emit(item);
   }
-
 }

@@ -1,4 +1,4 @@
-import { Series } from "./series";
+import { SeriesApi } from "./series-api";
 
 export interface Quality {
     id: number;
@@ -18,7 +18,7 @@ export interface Quality {
   }
   
   export interface Queue {
-    series: Series;
+    series: SeriesApi;
     episode: Episode;
     timeLeft: string;
     estimatedCompletionTime: Date;

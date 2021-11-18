@@ -4,12 +4,13 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
-  Output
+  Output,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { AddEvent, Series } from '../../model/series';
+import { Series, AddEvent } from '../../model/series';
+import { AddSeriesApi, SeriesApi } from '../../model/series-api';
 import { ResultItemFormValue } from './result-item';
 
 @Component({
@@ -51,7 +52,7 @@ export class ResultsItemComponent implements OnDestroy {
     this.destroyed$.next();
   }
 
-  addClicked(item: Series): void {
+  onSubmit(item: Series): void {
     this.addClick.emit(this.convertSeriesToAddEvent(item));
   }
 
@@ -59,9 +60,12 @@ export class ResultsItemComponent implements OnDestroy {
     const resultItemFormValue: ResultItemFormValue = this.formGroup.value;
     return {
       all: resultItemFormValue.all,
-      profileId: resultItemFormValue.profileId,
+      images: series.images,
+      profileId: resultItemFormValue.profile,
       seasons: resultItemFormValue.seasons,
-      series
+      title: series.title,
+      titleSlug: series.titleSlug,
+      tvdbId: series.tvdbId,
     };
   }
 }

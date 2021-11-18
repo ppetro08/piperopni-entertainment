@@ -1,39 +1,12 @@
-@use '~@angular/material' as mat;
-@include mat.core();
-
-// TODO Figure out how to do themeing with palettes/css variables?
-$angular-primary: mat.define-palette(mat.$blue-palette, 500, 100, 900);
-$angular-accent: mat.define-palette(mat.$orange-palette, A200, A100, A400);
-$angular-warn: mat.define-palette(mat.$red-palette);
-
-$angular-light-theme: mat.define-light-theme(
-  (
-    color: (
-      primary: $angular-primary,
-      accent: $angular-accent,
-      warn: $angular-warn,
-    ),
-  )
-);
-
-// @include mat.
-@include mat.core-theme($angular-light-theme);
-@include mat.all-component-themes($angular-light-theme);
+@import 'styles/themes';
+@import 'styles/variables';
 
 html,
-body {
+body,
+.mat-app-background {
   height: 100%;
   width: 100%;
   margin: 0;
-}
-
-:root div {
-  // --border-color: mat.get-color-from-pallete($angular-primary, '500');
-
-  // color: mat.get-color-from-pallete($angular-primary, '500');
-  background: mat.get-color-from-palette($angular-primary, '900');
-  color: mat.get-color-from-palette($angular-primary, '900');
-  // background: blue;
-
-  // background-color: var(--border-color);
+  background-color: $background-color;
+  font-family: 'Roboto', sans-serif;
 }

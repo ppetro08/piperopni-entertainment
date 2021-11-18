@@ -1,3 +1,5 @@
+@import '../styles/variables';
+
 .nav-bar {
   height: 50px;
   width: 100%;
@@ -5,9 +7,13 @@
   //   TODO:P - different background color instead of border-bottom?
   border-bottom: 1px solid rgba(255, 255, 255, 0.3); // TODO:P - Figure out how to pull this from angular theme
   margin-bottom: 2em;
+  background-color: #464b51;
 
   .nav-item {
     display: flex;
     align-items: center;
+    color: white;
+    font-size: 16px;
+    font-weight:700;
   }
 }
