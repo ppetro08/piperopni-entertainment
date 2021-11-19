@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { Profile } from '../../model/profile';
 import { Series, AddEvent } from '../../model/series';
 import { AddSeriesApi, SeriesApi } from '../../model/series-api';
 
@@ -11,8 +12,30 @@ import { AddSeriesApi, SeriesApi } from '../../model/series-api';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ResultsContainerComponent  {
-  @Input() data: Series[] = [];
+  @Input()
+  public set data(value: Series[] | null) {
+    if (value === null) {
+      value = [];
+    }
+    this._data = value;
+  }
+  public get data(): Series[] {
+    return this._data;
+  }
+  private _data: Series[] = [];
 
+  @Input()
+  public set profiles(value: Profile[] | null) {
+    if (value === null) {
+      value = [];
+    }
+    this._profiles = value;
+  }
+  public get profiles(): Profile[] {
+    return this._profiles;
+  }
+  private _profiles: Profile[] = [];
+  
   @Output() addClick = new EventEmitter<AddEvent>();
 
   addClicked(item: AddEvent): void {

@@ -2,14 +2,19 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  OnDestroy
+  OnDestroy,
+  OnInit,
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Subject } from 'rxjs';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, takeUntil, tap } from 'rxjs/operators';
+import { Profile } from './model/profile';
 import { Series, AddEvent } from './model/series';
-import { AddSeriesApi, SeriesApi } from './model/series-api';
 import { SonarrApiService } from './sonarr.api.service';
+import { search, sonarrInit } from './state/sonarr.actions';
+import { SonarrPartialState } from './state/sonarr.reducer';
+import { getSonarrLoaded, getSonarrProfiles, getSonarrSearchResults } from './state/sonarr.selectors';
 
 @Component({
   selector: 'pip-sonarr',
@@ -19,9 +24,14 @@ import { SonarrApiService } from './sonarr.api.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SonarrComponent implements OnDestroy {
-  data: Series[] =[];
+  data$: Observable<Series[]>;
+    
+  loaded$: Observable<boolean>;
+
+  profiles$: Observable<Profile[]>;
 
   form: FormGroup;
+  
 
   private destroyed$ = new Subject<void>();
 
@@ -32,18 +42,23 @@ export class SonarrComponent implements OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private changeDetectorRef: ChangeDetectorRef,
-    private sonarrApiService: SonarrApiService
+    private sonarrStore: Store<SonarrPartialState>
   ) {
-    const searchControl: FormControl = this.formBuilder.control(null);
+    this.sonarrStore.dispatch(sonarrInit());
+    this.data$ = this.sonarrStore.select(getSonarrSearchResults).pipe(
+      tap(() => this.changeDetectorRef.markForCheck())
+    );
+    this.loaded$ = this.sonarrStore.select(getSonarrLoaded);
+    this.profiles$ = this.sonarrStore.select(getSonarrProfiles);
 
+    const searchControl: FormControl = this.formBuilder.control(null);
     this.form = this.formBuilder.group({
       search: searchControl,
     });
-
     searchControl.valueChanges
       .pipe(debounceTime(400), takeUntil(this.destroyed$))
       .subscribe((searchText: string) => {
-        this.search(searchText);
+        this.sonarrStore.dispatch(search({ searchText }));
       });
   }
 
@@ -52,17 +67,19 @@ export class SonarrComponent implements OnDestroy {
   }
 
   addClicked(item: AddEvent): void {
-    this.sonarrApiService.add(item);
+    // TODO:P - Update to dispatch action
+    // this.sonarrApiService.addSeries(item);
   }
 
-  private search(searchText: string): void {
-    this.sonarrApiService
-      .lookUp(searchText)
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe((value: Series[]) => {
-        this.data = value;
-        this.changeDetectorRef.markForCheck();
-        console.log(this.data);
-      });
-  }
+  // private search(searchText: string): void {
+  //   // TODO:P - Update to dispatch action
+  //   this.sonarrApiService
+  //     .search(searchText)
+  //     .pipe(takeUntil(this.destroyed$))
+  //     .subscribe((value: Series[]) => {
+  //       this.data$ = value;
+  //       this.changeDetectorRef.markForCheck();
+  //       console.log(this.data$);
+  //     });
+  // }
 }

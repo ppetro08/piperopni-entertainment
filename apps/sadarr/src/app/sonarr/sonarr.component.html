@@ -9,5 +9,9 @@
   </mat-form-field>
 </form>
 <!-- TODO: Need loading overlay -->
-<pip-results-container [data]="data" (addClick)="addClicked($event)">
+<pip-results-container
+  [data]="data$ | async"
+  [profiles]="profiles$ | async"
+  (addClick)="addClicked($event)"
+>
 </pip-results-container>

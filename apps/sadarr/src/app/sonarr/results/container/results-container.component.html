@@ -2,5 +2,6 @@
 <pip-results-item
   *ngFor="let item of data"
   [item]="item"
+  [profiles]="profiles"
   (addClick)="addClicked($event)"
 ></pip-results-item>

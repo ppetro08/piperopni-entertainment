@@ -14,12 +14,7 @@
     "default": {
       "runner": "@nrwl/nx-cloud",
       "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "test",
-          "e2e"
-        ],
+        "cacheableOperations": ["build", "lint", "test", "e2e"],
         "accessToken": "MzlmZjgzYmItOGFlYS00YjY1LWFlNTItY2I3OTNiZjliYTMzfHJlYWQtd3JpdGU="
       }
     }
@@ -38,9 +33,7 @@
     },
     "sadarr-e2e": {
       "tags": [],
-      "implicitDependencies": [
-        "sadarr"
-      ]
+      "implicitDependencies": ["sadarr"]
     }
   }
 }

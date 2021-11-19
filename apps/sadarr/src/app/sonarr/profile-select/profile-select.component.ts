@@ -8,7 +8,7 @@ import {
   OnInit,
   Optional,
   Self,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
@@ -28,11 +28,32 @@ import { SonarrApiService } from '../sonarr.api.service';
 })
 export class ProfileSelectComponent
   implements
-    OnInit,
+    
     OnDestroy,
     MatFormFieldControl<Profile>,
     ControlValueAccessor
 {
+  @Input()
+  public set profiles(value: Profile[] | null) {
+    if (value === null) {
+      value = [];
+    } else {
+      value.forEach((p: Profile) => {
+        this.profileMap.set(p.id, p);
+      });
+    }
+
+    if (this.profileId && value === null) {
+      this.setValueByProfileId(this.profileId);
+    }
+
+    this._profiles = value;
+  }
+  public get profiles(): Profile[] {
+    return this._profiles;
+  }
+  private _profiles: Profile[] = [];
+
   @Input() public set disabled(value) {
     this._disabled = coerceBooleanProperty(value);
     this.stateChanges.next();
@@ -58,8 +79,6 @@ export class ProfileSelectComponent
 
   @ViewChild(MatSelect) matSelect?: MatSelect;
 
-  profiles$: Observable<Profile[]> | null = null;
-
   autofilled? = false;
 
   controlType?: string;
@@ -84,7 +103,7 @@ export class ProfileSelectComponent
 
   private profileId: number | null = null;
 
-  private _profiles = new Map<number, Profile>();
+  private profileMap = new Map<number, Profile>();
 
   private destroyed$ = new Subject<void>();
 
@@ -112,25 +131,12 @@ export class ProfileSelectComponent
       });
   }
 
-  ngOnInit(): void {
-    this.profiles$ = this.sonarrApiService.profiles$.pipe(
-      tap((profiles: Profile[]) => {
-        profiles.forEach((p: Profile) => {
-          this._profiles.set(p.id, p);
-        });
-        if (this.profileId && this.value === null) {
-          this.setValueByProfileId(this.profileId);
-        }
-      })
-    );
-  }
-
   ngOnDestroy(): void {
     this.destroyed$.next();
   }
 
   private setValueByProfileId(profileId: number): void {
-    const profile: Profile | undefined = this._profiles.get(profileId);
+    const profile: Profile | undefined = this.profileMap.get(profileId);
     if (profile) {
       this.setValue(profile);
     }
@@ -144,7 +150,7 @@ export class ProfileSelectComponent
   // #region ValueControlAccessor implementation
   writeValue(profileId: number): void {
     this.profileId = profileId;
-    const profile: Profile | undefined = this._profiles.get(profileId);
+    const profile: Profile | undefined = this.profileMap.get(profileId);
     if (profile !== undefined) {
       this.setValue(profile);
     }

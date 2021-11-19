@@ -69,14 +69,19 @@ export interface SeriesApi {
   year: number;
 }
 
+export type MonitorTypes = 'All' | 'Future' | 'Missing' | 'Existing' | 'FirstSeason' | 'LatestSeason' | 'Pilot' | 'None';
+
 export interface AddOptionsApi {
-  ignoreEpisodesWithFiles: boolean;
-  ignoreEpisodesWithoutFiles: boolean;
+  ignoreEpisodesWithFiles?: boolean;
+  ignoreEpisodesWithoutFiles?: boolean;
+  monitor: MonitorTypes;
+  searchForCutoffUnmetEpisodes: boolean;
   searchForMissingEpisodes: boolean;
 }
 
 export interface AddSeriesApi {
-  addOptions?: AddOptionsApi;
+  addOptions: AddOptionsApi;
+  folder: string;
   images: ImageApi[];
   profileId: number;
   rootFolderPath: string;
@@ -88,13 +93,16 @@ export interface AddSeriesApi {
 
 export interface AddSeriesResponseApi {
   id: number;
+  imdbId: number;
   monitored: boolean;
   path: string;
   profileId: number;
+  seasonFolder: boolean;
   seasons: SeasonApi[];
   title: string;
   titleSlug: string;
   tvdbid: number;
+  tvRageId: number
 }
 
 export interface UpdateSeriesApi {}
