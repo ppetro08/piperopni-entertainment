@@ -29,3 +29,4 @@ export const searchFailure = createAction(
   '[Sonarr/API] Search Failure',
   props<{ error: any }>()
 );
+export const clearSearch = createAction('[Sonarr/API] Clear Search');

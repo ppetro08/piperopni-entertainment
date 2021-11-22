@@ -8,9 +8,6 @@ import {
   SeriesApi,
 } from './model/series-api';
 
-// TODO:P - Add ngrx
-// It's gonna store all information about existing shows, this means I can change the logic on if a series is added or not
-// It will also store the search results so I don't need to pass the entire series back to the service and I can merge the addseries with what it is in the store when doing an update, this doesn't really apply to a post afaik
 // TODO:P - Find out what takes so long when getting alot of results 'blacklis'
 @Injectable()
 export class SonarrApiService implements OnDestroy {

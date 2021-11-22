@@ -1,5 +1,5 @@
-<!-- TODO:P - Result should show rating, number of season, and something indicating if it has been added or not -->
-<!-- show if there are any missing items -->
+<!-- TODO:P - Result should show if there are any missing episodes and how many -->
+<!-- Added should be a little more complex and maybe show if it exists and if it is monitored separately -->
 <form *ngIf="item" [formGroup]="formGroup" (ngSubmit)="onSubmit(item)">
   <div class="results-item-top">
     <div class="result-detail-title">
@@ -75,5 +75,9 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="results-item-footer">
+
   </div>
 </form>

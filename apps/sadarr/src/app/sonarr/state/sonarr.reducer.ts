@@ -10,7 +10,7 @@ export const SONARR_FEATURE_KEY = 'sonarr';
 
 export interface State extends EntityState<SonarrEntity> {
   error?: string | null; // last known error (if any)
-  loading: boolean; // TODO:P - Separate this and the searchload status, clean up gross selector for showing the loading overlay
+  loading: boolean; 
   profiles: Profile[];
   rootFolders: RootFolderApi[];
   searchLoading: boolean | null;
@@ -76,6 +76,12 @@ const sonarrReducer = createReducer(
     ...state,
     error,
     searchLoading: false,
+  })),
+  on(SonarrActions.clearSearch, (state) => ({
+    ...state,    
+    searchLoading: false,
+    searchText: '',
+    searchResults: [],
   }))
 );
 

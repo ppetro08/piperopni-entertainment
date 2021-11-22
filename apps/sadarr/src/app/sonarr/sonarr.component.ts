@@ -3,26 +3,22 @@ import {
   ChangeDetectorRef,
   Component,
   OnDestroy,
-  OnInit,
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, map, takeUntil, tap } from 'rxjs/operators';
+import { debounceTime, takeUntil, tap } from 'rxjs/operators';
 import { Profile } from './model/profile';
 import { Series, AddEvent } from './model/series';
 import { SonarrApiService } from './sonarr.api.service';
-import { search, sonarrInit } from './state/sonarr.actions';
+import { clearSearch, search, sonarrInit } from './state/sonarr.actions';
 import { SonarrPartialState } from './state/sonarr.reducer';
 import {
-  getSonarrLoading,
   getSonarrProfiles,
   getSonarrSearchLoading,
   getSonarrSearchResults,
   showNoResultsFound,
 } from './state/sonarr.selectors';
-
-// TODO:P - Don't search when searchbox is empty and don't show "no results found"
 
 @Component({
   selector: 'pip-sonarr',
@@ -57,8 +53,7 @@ export class SonarrComponent implements OnDestroy {
     this.data$ = this.sonarrStore
       .select(getSonarrSearchResults)
       .pipe(tap(() => this.changeDetectorRef.markForCheck()));
-        this.searchLoading$ = this.sonarrStore
-          .select(getSonarrSearchLoading);
+    this.searchLoading$ = this.sonarrStore.select(getSonarrSearchLoading);
     this.profiles$ = this.sonarrStore.select(getSonarrProfiles);
     this.showNoResultsFound$ = this.sonarrStore.select(showNoResultsFound);
 
@@ -69,7 +64,11 @@ export class SonarrComponent implements OnDestroy {
     searchControl.valueChanges
       .pipe(debounceTime(400), takeUntil(this.destroyed$))
       .subscribe((searchText: string) => {
-        this.sonarrStore.dispatch(search({ searchText }));
+        if (searchText !== '' && searchText !== null) {
+          this.sonarrStore.dispatch(search({ searchText }));
+        } else {
+          this.sonarrStore.dispatch(clearSearch());
+        }
       });
   }
 
@@ -81,16 +80,4 @@ export class SonarrComponent implements OnDestroy {
     // TODO:P - Update to dispatch action
     // this.sonarrApiService.addSeries(item);
   }
-
-  // private search(searchText: string): void {
-  //   // TODO:P - Update to dispatch action
-  //   this.sonarrApiService
-  //     .search(searchText)
-  //     .pipe(takeUntil(this.destroyed$))
-  //     .subscribe((value: Series[]) => {
-  //       this.data$ = value;
-  //       this.changeDetectorRef.markForCheck();
-  //       console.log(this.data$);
-  //     });
-  // }
 }

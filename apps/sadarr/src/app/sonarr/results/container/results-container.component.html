@@ -1,3 +1,7 @@
+<div class="no-results-found" *ngIf="showNoResultsFound">
+  No results found
+</div>
+
 <cdk-virtual-scroll-viewport itemSize="459">
   <pip-results-item
     *cdkVirtualFor="let item of data"
@@ -6,7 +10,3 @@
     (addClick)="addClicked($event)"
   ></pip-results-item>
 </cdk-virtual-scroll-viewport>
-
-<div class="no-results-found" *ngIf="showNoResultsFound">
-  No results found
-</div>

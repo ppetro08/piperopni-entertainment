@@ -57,7 +57,7 @@ export const getSonarrSearchResults = createSelector(getSonarrState, (state: Sta
 );
 
 export const showNoResultsFound = createSelector(getSonarrState, (state: State) =>
-  state.searchLoading === false && state.ids.length === 0 && state.searchText !== null && state.searchText !== ""
+  state.searchLoading === false && state.searchResults.length === 0 && state.searchText !== null && state.searchText !== ""
 );
 
 export const getSonarrSearchLoading = createSelector(
