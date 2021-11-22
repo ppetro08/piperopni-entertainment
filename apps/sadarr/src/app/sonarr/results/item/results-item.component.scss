@@ -9,7 +9,7 @@
   margin-bottom: 2em;
   border: 1px solid rgba(255, 255, 255, 0.3); // TODO:P - Figure out how to pull this from angular theme
   border-radius: 4px;
-  background-color: #fafafa;
+  background-color: $result-item-background-color;
 }
 
 .results-item-top {

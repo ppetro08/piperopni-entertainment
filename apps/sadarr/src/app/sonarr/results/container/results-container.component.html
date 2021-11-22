@@ -1,7 +1,12 @@
-<!-- TODO:P - virtual scrolling -->
-<pip-results-item
-  *ngFor="let item of data"
-  [item]="item"
-  [profiles]="profiles"
-  (addClick)="addClicked($event)"
-></pip-results-item>
+<cdk-virtual-scroll-viewport itemSize="459">
+  <pip-results-item
+    *cdkVirtualFor="let item of data"
+    [item]="item"
+    [profiles]="profiles"
+    (addClick)="addClicked($event)"
+  ></pip-results-item>
+</cdk-virtual-scroll-viewport>
+
+<div class="no-results-found" *ngIf="showNoResultsFound">
+  No results found
+</div>

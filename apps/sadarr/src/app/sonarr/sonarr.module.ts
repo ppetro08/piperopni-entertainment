@@ -13,6 +13,7 @@ import { EffectsModule } from '@ngrx/effects';
 import * as fromSonarr from './state/sonarr.reducer';
 import { SonarrEffects } from './state/sonarr.effects';
 import { SonarrApiService } from './sonarr.api.service';
+import { LoadingOverlayModule } from '../shared/loading-overlay/loading-overlay.module';
 
 @NgModule({
   declarations: [SonarrComponent],
@@ -20,6 +21,7 @@ import { SonarrApiService } from './sonarr.api.service';
     CommonModule,
     FormsModule,
     HttpClientModule,
+    LoadingOverlayModule,
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,

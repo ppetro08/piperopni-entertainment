@@ -1,17 +1,22 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { Profile } from '../../model/profile';
 import { Series, AddEvent } from '../../model/series';
-import { AddSeriesApi, SeriesApi } from '../../model/series-api';
 
 @Component({
   selector: 'pip-results-container',
   templateUrl: './results-container.component.html',
   styleUrls: ['./results-container.component.scss'],
   // eslint-disable-next-line @angular-eslint/no-host-metadata-property
-  host: {class: 'results-container'},
-  changeDetection: ChangeDetectionStrategy.OnPush
+  host: { class: 'results-container' },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ResultsContainerComponent  {
+export class ResultsContainerComponent {
   @Input()
   public set data(value: Series[] | null) {
     if (value === null) {
@@ -24,6 +29,8 @@ export class ResultsContainerComponent  {
   }
   private _data: Series[] = [];
 
+  @Input() showNoResultsFound: boolean | null = null;
+
   @Input()
   public set profiles(value: Profile[] | null) {
     if (value === null) {
@@ -35,7 +42,7 @@ export class ResultsContainerComponent  {
     return this._profiles;
   }
   private _profiles: Profile[] = [];
-  
+
   @Output() addClick = new EventEmitter<AddEvent>();
 
   addClicked(item: AddEvent): void {

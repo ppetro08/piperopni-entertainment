@@ -1,6 +1,7 @@
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {  ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -19,7 +20,8 @@ import { ResultsItemComponent } from './item/results-item.component';
     MatIconModule,
     MatSelectModule,
     ProfileSelectModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ScrollingModule
   ],
   exports: [ResultsContainerComponent],
   declarations: [ResultsContainerComponent, ResultsItemComponent],

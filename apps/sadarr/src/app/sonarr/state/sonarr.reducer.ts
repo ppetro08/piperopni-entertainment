@@ -10,10 +10,12 @@ export const SONARR_FEATURE_KEY = 'sonarr';
 
 export interface State extends EntityState<SonarrEntity> {
   error?: string | null; // last known error (if any)
-  loaded: boolean; // has the Sonarr list been loaded
+  loading: boolean; // TODO:P - Separate this and the searchload status, clean up gross selector for showing the loading overlay
   profiles: Profile[];
   rootFolders: RootFolderApi[];
+  searchLoading: boolean | null;
   searchResults: SeriesApi[];
+  searchText: string | null;
 }
 
 export interface SonarrPartialState {
@@ -24,10 +26,12 @@ export const sonarrAdapter: EntityAdapter<SonarrEntity> =
   createEntityAdapter<SonarrEntity>();
 
 export const initialState: State = sonarrAdapter.getInitialState({
-  loaded: false,
+  loading: false,
   profiles: [],
   rootFolders: [],
+  searchLoading: null,
   searchResults: [],
+  searchText: null,
 });
 
 const sonarrReducer = createReducer(
@@ -36,8 +40,8 @@ const sonarrReducer = createReducer(
   // init
   on(SonarrActions.sonarrInit, (state) => ({
     ...state,
-    loaded: false,
     error: null,
+    loading: true,
   })),
   on(
     SonarrActions.sonarrInitSuccess,
@@ -53,20 +57,25 @@ const sonarrReducer = createReducer(
     ...state,
     error,
   })),
-  
+
   // search
-  on(SonarrActions.search, (state) => ({
+  on(SonarrActions.search, (state, action) => ({
     ...state,
-    loaded: false,
     error: null,
+    searchLoading: true,
+    searched: true,
+    searchText: action.searchText,
   })),
   on(SonarrActions.searchSuccess, (state, action) => ({
     ...state,
+    loading: true,
+    searchLoading: false,
     searchResults: action.series,
   })),
   on(SonarrActions.searchFailure, (state, { error }) => ({
     ...state,
     error,
+    searchLoading: false,
   }))
 );
 

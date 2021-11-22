@@ -10,9 +10,9 @@ export const getSonarrState = createFeatureSelector<State>(SONARR_FEATURE_KEY);
 
 const { selectAll, selectEntities } = sonarrAdapter.getSelectors();
 
-export const getSonarrLoaded = createSelector(
+export const getSonarrLoading = createSelector(
   getSonarrState,
-  (state: State) => state.loaded
+  (state: State) => state.loading
 );
 
 export const getSonarrError = createSelector(
@@ -54,6 +54,15 @@ export const getSonarrSearchResults = createSelector(getSonarrState, (state: Sta
   state.searchResults
     ? state.searchResults.map((sa) => convertSeriesApiToSeries(sa))
     : []
+);
+
+export const showNoResultsFound = createSelector(getSonarrState, (state: State) =>
+  state.searchLoading === false && state.ids.length === 0 && state.searchText !== null && state.searchText !== ""
+);
+
+export const getSonarrSearchLoading = createSelector(
+  getSonarrState,
+  (state: State) => state.searchLoading
 );
 
 function convertSeriesApiToSeries(seriesApi: SeriesApi): Series {

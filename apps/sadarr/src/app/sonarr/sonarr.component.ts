@@ -8,13 +8,21 @@ import {
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, takeUntil, tap } from 'rxjs/operators';
+import { debounceTime, map, takeUntil, tap } from 'rxjs/operators';
 import { Profile } from './model/profile';
 import { Series, AddEvent } from './model/series';
 import { SonarrApiService } from './sonarr.api.service';
 import { search, sonarrInit } from './state/sonarr.actions';
 import { SonarrPartialState } from './state/sonarr.reducer';
-import { getSonarrLoaded, getSonarrProfiles, getSonarrSearchResults } from './state/sonarr.selectors';
+import {
+  getSonarrLoading,
+  getSonarrProfiles,
+  getSonarrSearchLoading,
+  getSonarrSearchResults,
+  showNoResultsFound,
+} from './state/sonarr.selectors';
+
+// TODO:P - Don't search when searchbox is empty and don't show "no results found"
 
 @Component({
   selector: 'pip-sonarr',
@@ -25,13 +33,14 @@ import { getSonarrLoaded, getSonarrProfiles, getSonarrSearchResults } from './st
 })
 export class SonarrComponent implements OnDestroy {
   data$: Observable<Series[]>;
-    
-  loaded$: Observable<boolean>;
 
   profiles$: Observable<Profile[]>;
 
+  searchLoading$: Observable<boolean | null>;
+
+  showNoResultsFound$: Observable<boolean>;
+
   form: FormGroup;
-  
 
   private destroyed$ = new Subject<void>();
 
@@ -45,11 +54,13 @@ export class SonarrComponent implements OnDestroy {
     private sonarrStore: Store<SonarrPartialState>
   ) {
     this.sonarrStore.dispatch(sonarrInit());
-    this.data$ = this.sonarrStore.select(getSonarrSearchResults).pipe(
-      tap(() => this.changeDetectorRef.markForCheck())
-    );
-    this.loaded$ = this.sonarrStore.select(getSonarrLoaded);
+    this.data$ = this.sonarrStore
+      .select(getSonarrSearchResults)
+      .pipe(tap(() => this.changeDetectorRef.markForCheck()));
+        this.searchLoading$ = this.sonarrStore
+          .select(getSonarrSearchLoading);
     this.profiles$ = this.sonarrStore.select(getSonarrProfiles);
+    this.showNoResultsFound$ = this.sonarrStore.select(showNoResultsFound);
 
     const searchControl: FormControl = this.formBuilder.control(null);
     this.form = this.formBuilder.group({
