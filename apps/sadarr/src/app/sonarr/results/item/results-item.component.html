@@ -1,7 +1,9 @@
+<!-- TODO:P - Create storybook story for the results-item / results-container -->
+
 <!-- TODO:P - Result should show if there are any missing episodes and how many -->
 <!-- Added should be a little more complex and maybe show if it exists and if it is monitored separately -->
 <form *ngIf="item" [formGroup]="formGroup" (ngSubmit)="onSubmit(item)">
-  <div class="results-item-top">
+  <div class="results-item-header">
     <div class="result-detail-title">
       <div class="result-detail-title-text">
         {{ item.title }}
@@ -28,7 +30,7 @@
       </span>
     </div>
   </div>
-  <div class="results-item-bottom">
+  <div class="results-item-body">
     <div class="thumbnail-container">
       <img [src]="item.remotePoster" />
     </div>
@@ -39,7 +41,7 @@
 
       <!-- TODO:P - Display number of episodes, maybe even more info like episodes missing from seasons -->
       <div class="result-actions">
-        <div class="result-actions-inputs">
+        <div class="result-actions-inputs" *ngIf="!item.added">
           <div class="all-multi-select result-actions-input">
             <mat-checkbox formControlName="all">All</mat-checkbox>
             <mat-form-field floatLabel="always">
@@ -60,24 +62,22 @@
           </mat-form-field>
         </div>
         <div class="result-actions-buttons">
-          <!-- TODO:P - Does add and search need to be separate? -->
-          <!-- <button
-            *ngIf="!item.monitored"
+          <button
             mat-raised-button
             color="primary"
-            (click)="addClicked(item)"
+            type="submit"
+            *ngIf="!item.added; else goToDetailPage"
           >
             Add
-          </button> -->
-          <button mat-raised-button color="primary" type="submit">Search</button>
+          </button>
+          <ng-template #goToDetailPage>
+            <!-- TODO:P - Figure out how to do a link in storybook -->
+            <a mat-raised-button color="primary" href="/">Go to detail page</a>
+          </ng-template>
           <!-- TODO:P - Search should update episodes that are unmonitored to monitored -->
           <!-- TODO:P - Repeated search until nothing is found -->
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="results-item-footer">
-
   </div>
 </form>

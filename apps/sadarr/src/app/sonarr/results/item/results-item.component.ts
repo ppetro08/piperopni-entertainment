@@ -11,7 +11,6 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Profile } from '../../model/profile';
 import { Series, AddEvent } from '../../model/series';
-import { AddSeriesApi, SeriesApi } from '../../model/series-api';
 import { ResultItemFormValue } from './result-item';
 
 @Component({

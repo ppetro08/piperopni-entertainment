@@ -12,6 +12,7 @@ export interface Image {
 
 export interface Series {
   added: boolean;
+  id?: number;
   images: Image[];
   monitored: boolean;
   network?: string;

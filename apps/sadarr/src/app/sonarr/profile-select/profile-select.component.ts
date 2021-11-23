@@ -5,7 +5,6 @@ import {
   ElementRef,
   Input,
   OnDestroy,
-  OnInit,
   Optional,
   Self,
   ViewChild,
@@ -13,10 +12,9 @@ import {
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { MatSelect } from '@angular/material/select';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil, tap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { Profile } from '../model/profile';
-import { SonarrApiService } from '../sonarr.api.service';
 
 @Component({
   selector: 'pip-profile-select',
@@ -27,11 +25,7 @@ import { SonarrApiService } from '../sonarr.api.service';
   ],
 })
 export class ProfileSelectComponent
-  implements
-    
-    OnDestroy,
-    MatFormFieldControl<Profile>,
-    ControlValueAccessor
+  implements OnDestroy, MatFormFieldControl<Profile>, ControlValueAccessor
 {
   @Input()
   public set profiles(value: Profile[] | null) {
@@ -115,7 +109,6 @@ export class ProfileSelectComponent
 
   constructor(
     private elementRef: ElementRef,
-    private sonarrApiService: SonarrApiService,
     @Optional() @Self() public ngControl: NgControl,
     private focusMonitor: FocusMonitor
   ) {

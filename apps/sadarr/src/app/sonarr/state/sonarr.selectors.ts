@@ -68,6 +68,7 @@ export const getSonarrSearchLoading = createSelector(
 function convertSeriesApiToSeries(seriesApi: SeriesApi): Series {
   return {
     added: new Date(seriesApi.added).getTime() > 0,
+    id: seriesApi.id,
     images: seriesApi.images,
     monitored: seriesApi.monitored,
     network: seriesApi.network,

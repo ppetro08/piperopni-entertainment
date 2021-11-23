@@ -29,8 +29,6 @@ export class ResultsContainerComponent {
   }
   private _data: Series[] = [];
 
-  @Input() showNoResultsFound: boolean | null = null;
-
   @Input()
   public set profiles(value: Profile[] | null) {
     if (value === null) {
@@ -42,6 +40,8 @@ export class ResultsContainerComponent {
     return this._profiles;
   }
   private _profiles: Profile[] = [];
+
+  @Input() showNoResultsFound: boolean | null = null;
 
   @Output() addClick = new EventEmitter<AddEvent>();
 
