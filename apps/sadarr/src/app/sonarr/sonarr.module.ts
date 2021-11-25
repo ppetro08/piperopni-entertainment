@@ -5,15 +5,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { LoadingOverlayModule } from '../shared/loading-overlay/loading-overlay.module';
 import { ResultsModule } from './results/results.module';
 import { SonarrRoutingModule } from './sonarr-routing.module';
-import { SonarrComponent } from './sonarr.component';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-import * as fromSonarr from './state/sonarr.reducer';
-import { SonarrEffects } from './state/sonarr.effects';
 import { SonarrApiService } from './sonarr.api.service';
-import { LoadingOverlayModule } from '../shared/loading-overlay/loading-overlay.module';
+import { SonarrComponent } from './sonarr.component';
+import { SonarrEffects } from './state/sonarr.effects';
+import * as fromSonarr from './state/sonarr.reducer';
 
 @NgModule({
   declarations: [SonarrComponent],

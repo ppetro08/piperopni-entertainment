@@ -1,16 +1,19 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { SeriesDetail } from '../../model/series-detail';
 
 @Component({
   selector: 'pip-detail-view',
   templateUrl: './detail-view.component.html',
   styleUrls: ['./detail-view.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DetailViewComponent implements OnInit {
+export class DetailViewComponent {
+  @Input() seriesDetail: SeriesDetail | null = null;
 
-  constructor() { }
+  displayedColumns: string[] = ['monitored', 'episodeNumber', 'title', 'airDate', 'status', 'search'];
 
-  ngOnInit(): void {
+  btnclick($event: MouseEvent): void {
+    $event.stopPropagation();
+    console.log('button clicked');
   }
-
 }

@@ -1,8 +1,8 @@
 import { SeriesStatus } from './series-api';
 
 export interface Season {
-  seasonNumber: number;
   monitored: boolean;
+  seasonNumber: number;
 }
 
 export interface Image {

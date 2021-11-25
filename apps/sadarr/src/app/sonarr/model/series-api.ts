@@ -105,8 +105,6 @@ export interface AddSeriesResponseApi {
   tvRageId: number
 }
 
-export interface UpdateSeriesApi {}
-
 export interface SearchApi {
   name: string;
   seasonNumber: number;
