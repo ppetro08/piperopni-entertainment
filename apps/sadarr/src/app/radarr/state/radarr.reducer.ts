@@ -2,30 +2,30 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Action, createReducer, on } from '@ngrx/store';
 import { RootFolderApi } from '../../shared/models/root-folder-api';
 import { Profile } from '../../shared/profile-select/profile';
-import { SeriesApi } from '../model/series-api';
-import * as SonarrActions from './sonarr.actions';
-import { SonarrEntity } from './sonarr.models';
+import { MovieApi } from '../models/radarr-api';
+import * as RadarrActions from './radarr.actions';
+import { RadarrEntity } from './radarr.models';
 
-export const SONARR_FEATURE_KEY = 'sonarr';
+export const RADARR_FEATURE_KEY = 'radarr';
 
-export interface State extends EntityState<SonarrEntity> {
+export interface State extends EntityState<RadarrEntity> {
   error?: string | null; // last known error (if any)
   loading: boolean;
   profiles: Profile[];
   rootFolders: RootFolderApi[];
   searchLoading: boolean | null;
-  searchResults: SeriesApi[];
+  searchResults: MovieApi[];
   searchText: string | null;
 }
 
-export interface SonarrPartialState {
-  readonly [SONARR_FEATURE_KEY]: State;
+export interface RadarrPartialState {
+  readonly [RADARR_FEATURE_KEY]: State;
 }
 
-export const sonarrAdapter: EntityAdapter<SonarrEntity> =
-  createEntityAdapter<SonarrEntity>();
+export const radarrAdapter: EntityAdapter<RadarrEntity> =
+  createEntityAdapter<RadarrEntity>();
 
-export const initialState: State = sonarrAdapter.getInitialState({
+export const initialState: State = radarrAdapter.getInitialState({
   loading: false,
   profiles: [],
   rootFolders: [],
@@ -34,50 +34,50 @@ export const initialState: State = sonarrAdapter.getInitialState({
   searchText: null,
 });
 
-const sonarrReducer = createReducer(
+const radarrReducer = createReducer(
   initialState,
 
   // init
-  on(SonarrActions.sonarrInit, (state) => ({
+  on(RadarrActions.radarrInit, (state) => ({
     ...state,
     error: null,
     loading: true,
   })),
   on(
-    SonarrActions.sonarrInitSuccess,
+    RadarrActions.radarrInitSuccess,
     (state, { entities, profiles, rootFolders }) =>
-      sonarrAdapter.setAll(entities, {
+      radarrAdapter.setAll(entities, {
         ...state,
         loaded: true,
         profiles,
         rootFolders,
       })
   ),
-  on(SonarrActions.sonarrInitFailure, (state, { error }) => ({
+  on(RadarrActions.radarrInitFailure, (state, { error }) => ({
     ...state,
     error,
   })),
 
   // search
-  on(SonarrActions.search, (state, action) => ({
+  on(RadarrActions.search, (state, action) => ({
     ...state,
     error: null,
     searchLoading: true,
     searched: true,
     searchText: action.searchText,
   })),
-  on(SonarrActions.searchSuccess, (state, action) => ({
+  on(RadarrActions.searchSuccess, (state, action) => ({
     ...state,
     loading: true,
     searchLoading: false,
-    searchResults: action.series,
+    searchResults: action.movies,
   })),
-  on(SonarrActions.searchFailure, (state, { error }) => ({
+  on(RadarrActions.searchFailure, (state, { error }) => ({
     ...state,
     error,
     searchLoading: false,
   })),
-  on(SonarrActions.clearSearch, (state) => ({
+  on(RadarrActions.clearSearch, (state) => ({
     ...state,
     searchLoading: false,
     searchText: '',
@@ -86,5 +86,5 @@ const sonarrReducer = createReducer(
 );
 
 export function reducer(state: State | undefined, action: Action) {
-  return sonarrReducer(state, action);
+  return radarrReducer(state, action);
 }

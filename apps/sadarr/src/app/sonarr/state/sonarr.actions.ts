@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store';
+import { RootFolderApi } from '../../shared/models/root-folder-api';
 import { Profile } from '../../shared/profile-select/profile';
-import { RootFolderApi, SeriesApi } from '../model/series-api';
+import { SeriesApi } from '../model/series-api';
 import { SonarrEntity } from './sonarr.models';
 
 export const sonarrInit = createAction('[Sonarr Page] Init');

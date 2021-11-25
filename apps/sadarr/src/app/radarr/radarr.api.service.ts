@@ -4,16 +4,15 @@ import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { RootFolderApi } from '../shared/models/root-folder-api';
 import { Profile } from '../shared/profile-select/profile';
-import { SeriesApi } from './model/series-api';
+import { MovieApi } from './models/radarr-api';
 
-// TODO:P - Find out what takes so long when getting alot of results 'blacklis'
 @Injectable()
-export class SonarrApiService implements OnDestroy {
-  private apiUrl = 'http://piperopni.ddns.net:38082/api';
+export class RadarrApiService implements OnDestroy {
+  private apiUrl = 'http://piperopni.ddns.net:38084/api';
 
   private headers = new HttpHeaders({
     Accept: 'application/json',
-    'X-API-Key': '2ae85b65c2104fd1a85e4781d274d899',
+    'X-API-Key': '4020ff99a9774d62b03e519964cf8497',
     'X-Requested-With': 'XMLHttpRequest',
   });
 
@@ -25,14 +24,14 @@ export class SonarrApiService implements OnDestroy {
     this.destroyed$.next();
   }
 
-  loadAllSeries(): Observable<SeriesApi[]> {
-    return this.http.get<SeriesApi[]>(`${this.apiUrl}/series`, {
+  loadAllMovies(): Observable<MovieApi[]> {
+    return this.http.get<MovieApi[]>(`${this.apiUrl}/movie`, {
       headers: this.headers,
     });
   }
 
   loadProfiles(): Observable<Profile[]> {
-    return this.http.get<Profile[]>(`${this.apiUrl}/profile`, {
+    return this.http.get<Profile[]>(`${this.apiUrl}/qualityprofile`, {
       headers: this.headers,
     });
   }
@@ -43,9 +42,9 @@ export class SonarrApiService implements OnDestroy {
     });
   }
 
-  search(searchText: string): Observable<SeriesApi[]> {
+  search(searchText: string): Observable<MovieApi[]> {
     return this.http
-      .get<SeriesApi[]>(`${this.apiUrl}/series/lookup?term=${searchText}`, {
+      .get<MovieApi[]>(`${this.apiUrl}/movie/lookup?term=${searchText}`, {
         headers: this.headers,
       })
       .pipe(

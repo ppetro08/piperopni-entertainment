@@ -1,11 +1,5 @@
 export type SeriesStatus = 'deleted' | 'continuing' | 'ended' | 'upcoming';
 
-export interface RootFolderApi {
-  accessible: boolean;
-  freeSpace: number; // in bytes
-  path: string;
-}
-
 export interface RatingApi {
   value: number;
   votes: number;
@@ -30,46 +24,54 @@ export interface SeriesApi {
   added: Date;
   airTime: string;
   alternateTitles: AlternateTitleApi[];
-  certification: string; 
-  cleanTitle: string; 
+  certification: string;
+  cleanTitle: string;
   episodeCount: number;
   episodeFileCount: number;
-  firstAired: Date; 
-  genres: string[]; 
-  id:number;
+  firstAired: Date;
+  genres: string[];
+  id: number;
   images: ImageApi[];
-  imdbId: string; 
+  imdbId: string;
   languageProfileId: number;
   lastInfoSync: Date;
   monitored: boolean;
   network: string;
   overview: string;
-  path:string;
+  path: string;
   previousAiring: Date;
   profileId: number;
   qualityProfileId: number;
   ratings: RatingApi;
   remotePoster: string;
-  runtime: number; 
+  runtime: number;
   seasonCount: number;
   seasonFolder: boolean;
   seasons: SeasonApi[];
-  seriesType: string; 
+  seriesType: string;
   sizeOnDisk: number;
-  sortTitle: string; 
+  sortTitle: string;
   status: SeriesStatus;
-  tags: string[]; 
+  tags: string[];
   title: string;
   titleSlug: string;
   totalEpisodeCount: number;
   tvdbId: number;
-  tvMazeId: number; 
-  tvRageId: number; 
-  useSceneNumbering: boolean; 
+  tvMazeId: number;
+  tvRageId: number;
+  useSceneNumbering: boolean;
   year: number;
 }
 
-export type MonitorTypes = 'All' | 'Future' | 'Missing' | 'Existing' | 'FirstSeason' | 'LatestSeason' | 'Pilot' | 'None';
+export type MonitorTypes =
+  | 'All'
+  | 'Future'
+  | 'Missing'
+  | 'Existing'
+  | 'FirstSeason'
+  | 'LatestSeason'
+  | 'Pilot'
+  | 'None';
 
 export interface AddOptionsApi {
   ignoreEpisodesWithFiles?: boolean;
@@ -102,7 +104,7 @@ export interface AddSeriesResponseApi {
   title: string;
   titleSlug: string;
   tvdbid: number;
-  tvRageId: number
+  tvRageId: number;
 }
 
 export interface SearchApi {
