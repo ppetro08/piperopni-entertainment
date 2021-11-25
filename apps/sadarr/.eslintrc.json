@@ -13,7 +13,7 @@
           "error",
           {
             "type": "attribute",
-            "prefix": "piperopniEntertainment",
+            "prefix": "pip",
             "style": "camelCase"
           }
         ],
@@ -24,7 +24,8 @@
             "prefix": "pip",
             "style": "kebab-case"
           }
-        ]
+        ],
+        "@angular-eslint/no-host-metadata-property": "warn"
       }
     },
     {
