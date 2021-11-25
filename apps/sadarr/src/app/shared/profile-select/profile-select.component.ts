@@ -14,7 +14,7 @@ import { MatFormFieldControl } from '@angular/material/form-field';
 import { MatSelect } from '@angular/material/select';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Profile } from '../model/profile';
+import { Profile } from './profile';
 
 @Component({
   selector: 'pip-profile-select',

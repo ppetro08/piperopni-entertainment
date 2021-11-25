@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Profile } from '../model/profile';
+import { Profile } from '../../shared/profile-select/profile';
 import { RootFolderApi, SeriesApi } from '../model/series-api';
 import { SonarrEntity } from './sonarr.models';
 

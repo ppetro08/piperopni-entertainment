@@ -9,7 +9,7 @@ import {
 import { FormControl, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Profile } from '../../model/profile';
+import { Profile } from '../../../shared/profile-select/profile';
 import { AddEvent, Series } from '../../model/series';
 import { ResultItemFormValue } from './result-item';
 

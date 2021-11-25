@@ -5,8 +5,8 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { Profile } from '../../model/profile';
-import { Series, AddEvent } from '../../model/series';
+import { Profile } from '../../../shared/profile-select/profile';
+import { AddEvent, Series } from '../../model/series';
 
 @Component({
   selector: 'pip-results-container',

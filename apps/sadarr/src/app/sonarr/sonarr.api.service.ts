@@ -2,11 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Profile } from './model/profile';
-import {
-  RootFolderApi,
-  SeriesApi,
-} from './model/series-api';
+import { Profile } from '../shared/profile-select/profile';
+import { RootFolderApi, SeriesApi } from './model/series-api';
 
 // TODO:P - Find out what takes so long when getting alot of results 'blacklis'
 @Injectable()

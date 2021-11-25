@@ -1,8 +1,7 @@
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { createReducer, on, Action } from '@ngrx/store';
-import { Profile } from '../model/profile';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import { Action, createReducer, on } from '@ngrx/store';
+import { Profile } from '../../shared/profile-select/profile';
 import { RootFolderApi, SeriesApi } from '../model/series-api';
-
 import * as SonarrActions from './sonarr.actions';
 import { SonarrEntity } from './sonarr.models';
 
@@ -10,7 +9,7 @@ export const SONARR_FEATURE_KEY = 'sonarr';
 
 export interface State extends EntityState<SonarrEntity> {
   error?: string | null; // last known error (if any)
-  loading: boolean; 
+  loading: boolean;
   profiles: Profile[];
   rootFolders: RootFolderApi[];
   searchLoading: boolean | null;
@@ -78,7 +77,7 @@ const sonarrReducer = createReducer(
     searchLoading: false,
   })),
   on(SonarrActions.clearSearch, (state) => ({
-    ...state,    
+    ...state,
     searchLoading: false,
     searchText: '',
     searchResults: [],
