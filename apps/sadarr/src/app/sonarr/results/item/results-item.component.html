@@ -9,25 +9,28 @@
         {{ item.title }}
       </div>
       <span class="result-detail-title-year">({{ item.year }})</span>
-      <span class="lozenge lozenge-primary" *ngIf="item.added"> Added </span>
+      <pip-lozenge
+        *ngIf="item.added"
+        [lozengeSize]="'large'"
+        [lozengeColor]="'success'"
+      >
+        Added
+      </pip-lozenge>
     </div>
     <div class="result-detail-additional-info">
-      <div
-        class="lozenge lozenge-primary lozenge-with-icon"
-        *ngIf="item.rating"
-      >
-        <mat-icon color="warn" class="lozenge-icon">favorite</mat-icon>
+      <pip-lozenge *ngIf="item.rating" [lozengeSize]="'small'">
+        <mat-icon color="warn" pipLozengeIcon>favorite</mat-icon>
         <div class="lozenge-text">{{ item.rating }}%</div>
-      </div>
-      <span class="lozenge lozenge-primary" *ngIf="item.network">
+      </pip-lozenge>
+      <pip-lozenge *ngIf="item.network" [lozengeSize]="'small'">
         {{ item.network }}
-      </span>
-      <span class="lozenge lozenge-primary">
+      </pip-lozenge>
+      <pip-lozenge [lozengeSize]="'small'">
         {{ item.seasonCount }} Season(s)
-      </span>
-      <span class="lozenge lozenge-warn" *ngIf="item.status === 'ended'">
+      </pip-lozenge>
+      <pip-lozenge *ngIf="item.status" [lozengeSize]="'small'">
         {{ item.status }}
-      </span>
+      </pip-lozenge>
     </div>
   </div>
   <div class="results-item-body">
@@ -58,7 +61,10 @@
           </div>
           <mat-form-field class="result-actions-input">
             <mat-label>Quality</mat-label>
-            <pip-profile-select formControlName="profile" [profiles]="profiles"></pip-profile-select>
+            <pip-profile-select
+              formControlName="profile"
+              [profiles]="profiles"
+            ></pip-profile-select>
           </mat-form-field>
         </div>
         <div class="result-actions-buttons">

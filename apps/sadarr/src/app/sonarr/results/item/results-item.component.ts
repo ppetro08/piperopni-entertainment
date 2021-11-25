@@ -10,7 +10,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Profile } from '../../model/profile';
-import { Series, AddEvent } from '../../model/series';
+import { AddEvent, Series } from '../../model/series';
 import { ResultItemFormValue } from './result-item';
 
 @Component({
@@ -25,8 +25,8 @@ import { ResultItemFormValue } from './result-item';
 })
 export class ResultsItemComponent implements OnDestroy {
   @Input() item?: Series;
-  
-  @Input() profiles: Profile[]  = [];
+
+  @Input() profiles: Profile[] = [];
 
   @Output() addClick = new EventEmitter<AddEvent>();
 

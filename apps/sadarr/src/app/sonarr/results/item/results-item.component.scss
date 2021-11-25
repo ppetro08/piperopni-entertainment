@@ -15,7 +15,7 @@
 .results-item-header {
   margin-bottom: 14px;
   .result-detail-title {
-    display:flex;
+    display: flex;
     font-size: 30px;
     .result-detail-title-text {
       margin-right: 0.25em;
@@ -24,9 +24,7 @@
       color: darken(#e9e9e9, 30);
     }
     .lozenge {
-      margin: auto 0 auto auto;
-      font-size: 16px;
-      background-color: $success-green;
+      margin: auto 0.5em auto auto;
     }
   }
 
@@ -38,31 +36,7 @@
 }
 
 .lozenge {
-  padding: 0.25em 0.5em;
-  border-radius: 5px;
-  font-size: 12px;
-  font-weight: 500;
-  color: #fff;
-  background-color: #4663ac;
-
-  &.lozenge-primary {
-    margin-right: 0.5em;
-  }
-  &.lozenge-warn {
-    @include color('warn');
-  }
-}
-
-.lozenge-with-icon {
-  display: flex;
-  align-items: center;
-
-  .lozenge-icon {
-    font-size: 14px;
-    height: 14px;
-    width: 14px;
-    margin-right: 3px;
-  }
+  margin-right: 5px;
 }
 
 .results-item-body {
