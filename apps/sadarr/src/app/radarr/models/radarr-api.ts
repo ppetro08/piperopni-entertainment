@@ -2,7 +2,7 @@ export interface MovieApi {
   certification: string;
   cleanTitle: string;
   folderName: string;
-  genres: string[]; // TODO:P - find all the types
+  genres: string[];
   hasFile: boolean;
   id: number;
   images: ImageApi[];

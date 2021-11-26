@@ -12,8 +12,7 @@
   flex: 0 0 50px;
   width: 100%;
   display: flex;
-  //   TODO:P - different background color instead of border-bottom?
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3); // TODO:P - Figure out how to pull this from angular theme
+  border-bottom: $border-color;
   margin-bottom: 2em;
   background-color: #464b51;
 

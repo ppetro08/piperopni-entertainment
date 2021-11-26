@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-// TODO:P - Move this to shared library instead of just folder in app?
+
 @Component({
   selector: 'pip-loading-overlay',
   templateUrl: './loading-overlay.component.html',
