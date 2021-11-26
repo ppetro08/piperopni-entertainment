@@ -7,8 +7,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
+import { LozengeModule } from '../../shared/lozenge/lozenge.module';
 import { ProfileSelectModule } from '../../shared/profile-select/profile-select.module';
-import { LozengeModule } from '../lozenge/lozenge.module';
 import { ResultsContainerComponent } from './container/results-container.component';
 import { ResultsItemComponent } from './item/results-item.component';
 

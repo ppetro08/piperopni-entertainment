@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
-import { LozengeModule } from '../../lozenge/lozenge.module';
+import { LozengeModule } from '../../../shared/lozenge/lozenge.module';
 import { DetailViewComponent } from './detail-view.component';
 
 export default {

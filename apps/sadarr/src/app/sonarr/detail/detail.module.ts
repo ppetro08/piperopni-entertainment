@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
-import { LozengeModule } from '../lozenge/lozenge.module';
+import { LozengeModule } from '../../shared/lozenge/lozenge.module';
 import { DetailComponent } from './detail.component';
 import { DetailViewComponent } from './view/detail-view.component';
 
