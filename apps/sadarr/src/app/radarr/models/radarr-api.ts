@@ -9,16 +9,18 @@ export interface MovieApi {
   imdbId: string;
   inCinemas: string;
   isAvailable: true;
-  minimumAvailability: 'announced' | ''; // TODO:P - find all the types
+  minimumAvailability: MovieStatusApi;
   monitored: true;
   overview: string;
   path: string;
   physicalRelease: string;
   qualityProfileId: 0;
   ratings: RatingsApi;
+  remotePoster: string;
   rootFolderPath: string;
   runtime: 0;
   sortTitle: string;
+  status: MovieStatusApi;
   studio: string;
   title: string;
   titleSlug: string;
@@ -42,5 +44,12 @@ export interface CollectionApi {
   name: string;
   tmdbid: number;
   images: ImageApi[];
-  status: 'deleted'; // TODO:P - find all the types
 }
+
+export type MovieStatusApi =
+  | 'deleted'
+  | 'tba'
+  | 'announced'
+  | 'incinemas'
+  | 'released'
+  | 'predb';

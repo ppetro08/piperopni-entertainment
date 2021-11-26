@@ -8,10 +8,10 @@ import { MatInputModule } from '@angular/material/input';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { LoadingOverlayModule } from '../shared/loading-overlay/loading-overlay.module';
-import { ResultsModule } from '../sonarr/results/results.module';
 import { RadarrRoutingModule } from './radarr-routing.module';
 import { RadarrApiService } from './radarr.api.service';
 import { RadarrComponent } from './radarr.component';
+import { ResultsModule } from './results/results.module';
 import { RadarrEffects } from './state/radarr.effects';
 import * as fromRadarr from './state/radarr.reducer';
 

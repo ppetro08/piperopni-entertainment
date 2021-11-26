@@ -3,10 +3,9 @@
 
 html,
 body,
-.mat-app-background {
+body .mat-app-background {
   height: 100%;
   width: 100%;
   margin: 0;
-  background-color: $background-color;
   font-family: 'Roboto', sans-serif;
 }

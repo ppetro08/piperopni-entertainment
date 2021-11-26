@@ -1,12 +1,12 @@
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { moduleMetadata, Story, Meta } from '@storybook/angular';
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { ResultsModule } from '../results.module';
 import { ResultsContainerComponent } from './results-container.component';
 
 export default {
-  title: 'ResultsContainerComponent',
+  title: 'SonarrResultsContainerComponent',
   component: ResultsContainerComponent,
   decorators: [
     moduleMetadata({

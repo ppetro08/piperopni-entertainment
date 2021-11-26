@@ -42,7 +42,7 @@ export class SonarrComponent implements OnDestroy {
 
   // TODO:P - Maybe 2 search boxes, one for existing series and one for searching for new series
   // TODO:P - Two pages, one list with detail pages for existing and the other is search
-  // TODO:P - Add way to change monitor status
+  // TODO:P - Add way to change monitor status - prolly not
 
   constructor(
     private formBuilder: FormBuilder,

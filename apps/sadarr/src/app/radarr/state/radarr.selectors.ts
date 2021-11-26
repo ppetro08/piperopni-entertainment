@@ -1,5 +1,7 @@
 import { Dictionary } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { Movie } from '../models/radarr';
+import { MovieApi } from '../models/radarr-api';
 import { RadarrEntity } from './radarr.models';
 import { radarrAdapter, RADARR_FEATURE_KEY, State } from './radarr.reducer';
 
@@ -49,13 +51,13 @@ export const getRadarrProfiles = createSelector(
   (state: State) => state.profiles
 );
 
-// export const getRadarrSearchResults = createSelector(
-//   getRadarrState,
-//   (state: State) =>
-//     state.searchResults
-//       ? state.searchResults.map((sa) => convertRadarrApiToRadarr(sa))
-//       : []
-// );
+export const getRadarrSearchResults = createSelector(
+  getRadarrState,
+  (state: State) =>
+    state.searchResults
+      ? state.searchResults.map((sa) => convertRadarrApiToRadarr(sa))
+      : []
+);
 
 export const showNoResultsFound = createSelector(
   getRadarrState,
@@ -71,26 +73,25 @@ export const getRadarrSearchLoading = createSelector(
   (state: State) => state.searchLoading
 );
 
-// function convertSeriesApiToSeries(seriesApi: SeriesApi): Series {
-//   return {
-//     added: new Date(seriesApi.added).getTime() > 0,
-//     id: seriesApi.id,
-//     images: seriesApi.images,
-//     monitored: seriesApi.monitored,
-//     network: seriesApi.network,
-//     overview: seriesApi.overview,
-//     profile: seriesApi.qualityProfileId,
-//     rating: seriesApi.ratings ? seriesApi.ratings.value * 10 : undefined,
-//     remotePoster: seriesApi.remotePoster,
-//     seasonCount: seriesApi.seasonCount,
-//     seasons: seriesApi.seasons.filter((s: SeasonApi) => s.seasonNumber > 0),
-//     status: seriesApi.status,
-//     title: seriesApi.title,
-//     titleSlug: seriesApi.titleSlug,
-//     tvdbId: seriesApi.tvdbId,
-//     year: seriesApi.year,
-//   };
-// }
+function convertRadarrApiToRadarr(radarrApi: MovieApi): Movie {
+  return {
+    id: radarrApi.id,
+    monitored: radarrApi.monitored,
+    studio: radarrApi.studio,
+    overview: radarrApi.overview,
+    profileId: radarrApi.qualityProfileId,
+    rating: radarrApi.ratings ? radarrApi.ratings.value * 10 : undefined,
+    remotePoster: radarrApi.remotePoster
+      ? radarrApi.remotePoster
+      : radarrApi?.images[0]?.remoteUrl,
+    status: radarrApi.status,
+    title: radarrApi.title,
+    tmdbId: radarrApi.tmdbId,
+    hasFile: radarrApi.hasFile,
+    length: radarrApi.runtime,
+    year: radarrApi.year,
+  };
+}
 
 // function convertAddEventToAddEventApi(
 //   addEvent: AddEvent,

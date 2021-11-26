@@ -8,22 +8,21 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { Profile } from '../../../shared/profile-select/profile';
-import { AddEvent, Series } from '../../model/series';
+import { AddEvent, Movie } from '../../models/radarr';
 import { ResultItemFormValue } from './result-item';
 
 @Component({
-  selector: 'pip-sonarr-results-item',
+  selector: 'pip-radarr-results-item',
   templateUrl: './results-item.component.html',
   styleUrls: ['./results-item.component.scss'],
   host: {
-    class: 'sonarr-results-item',
+    class: 'radarr-results-item',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ResultsItemComponent implements OnDestroy {
-  @Input() item?: Series;
+  @Input() item?: Movie;
 
   @Input() profiles: Profile[] = [];
 
@@ -34,39 +33,24 @@ export class ResultsItemComponent implements OnDestroy {
   private destroyed$ = new Subject<void>();
 
   constructor() {
-    const allControl = new FormControl(true);
-    const seasonsControl = new FormControl({ value: [], disabled: true });
     this.formGroup = new FormGroup({
-      all: allControl,
       profile: new FormControl(7),
-      seasons: seasonsControl,
     });
-
-    allControl.valueChanges
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe((value) => {
-        value ? seasonsControl.disable() : seasonsControl.enable();
-      });
   }
 
   ngOnDestroy(): void {
     this.destroyed$.next();
   }
 
-  onSubmit(item: Series): void {
-    this.addClick.emit(this.convertSeriesToAddEvent(item));
+  onSubmit(item: Movie): void {
+    this.addClick.emit(this.convertRadarrToAddEvent(item));
   }
 
-  private convertSeriesToAddEvent(series: Series): AddEvent {
+  private convertRadarrToAddEvent(radarr: Movie): AddEvent {
     const resultItemFormValue: ResultItemFormValue = this.formGroup.value;
     return {
-      all: resultItemFormValue.all,
-      images: series.images,
       profileId: resultItemFormValue.profile,
-      seasons: resultItemFormValue.seasons,
-      title: series.title,
-      titleSlug: series.titleSlug,
-      tvdbId: series.tvdbId,
+      tmdbId: radarr.tmdbId,
     };
   }
 }

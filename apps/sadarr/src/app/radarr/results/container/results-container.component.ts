@@ -6,27 +6,29 @@ import {
   Output,
 } from '@angular/core';
 import { Profile } from '../../../shared/profile-select/profile';
-import { AddEvent, Series } from '../../model/series';
+import { AddEvent, Movie } from '../../models/radarr';
+
+// TODO:P - scroll to top when searching again
 
 @Component({
-  selector: 'pip-sonarr-results-container',
+  selector: 'pip-radarr-results-container',
   templateUrl: './results-container.component.html',
   styleUrls: ['./results-container.component.scss'],
-  host: { class: 'sonarr-results-container' },
+  host: { class: 'radarr-results-container' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ResultsContainerComponent {
   @Input()
-  public set data(value: Series[] | null) {
+  public set data(value: Movie[] | null) {
     if (value === null) {
       value = [];
     }
     this._data = value;
   }
-  public get data(): Series[] {
+  public get data(): Movie[] {
     return this._data;
   }
-  private _data: Series[] = [];
+  private _data: Movie[] = [];
 
   @Input()
   public set profiles(value: Profile[] | null) {

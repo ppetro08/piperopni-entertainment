@@ -13,7 +13,7 @@ import { ResultsModule } from '../results.module';
 import { ResultsItemComponent } from './results-item.component';
 
 export default {
-  title: 'ResultsItemComponent',
+  title: 'SonarrResultsItemComponent',
   component: ResultsItemComponent,
   decorators: [
     moduleMetadata({

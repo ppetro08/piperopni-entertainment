@@ -29,6 +29,7 @@ export interface Series {
   year: number;
 }
 
+// TODO:P - Should just pass information from the form, tvdbId then we can merge it with info in the state
 export interface AddEvent {
   all: boolean;
   images: Image[];
