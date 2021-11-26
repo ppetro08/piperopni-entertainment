@@ -1,5 +1,4 @@
 <!-- TODO:P - Long titles look bad when on small screens -->
-<!-- Added should be a little more complex and maybe show if it exists and if it is monitored separately -->
 <form *ngIf="item" [formGroup]="formGroup" (ngSubmit)="onSubmit(item)">
   <div class="results-item-header">
     <div class="result-detail-title">
@@ -20,9 +19,8 @@
         <mat-icon color="warn" pipLozengeIcon>favorite</mat-icon>
         <div class="lozenge-text">{{ item.rating }}%</div>
       </pip-lozenge>
-      <!-- TODO:P - create pipe for this -->
       <pip-lozenge *ngIf="item.length" [lozengeSize]="'small'">
-        {{ item.length }}
+        {{ item.length | pipTime }}
       </pip-lozenge>
       <pip-lozenge *ngIf="item.studio" [lozengeSize]="'small'">
         {{ item.studio }}

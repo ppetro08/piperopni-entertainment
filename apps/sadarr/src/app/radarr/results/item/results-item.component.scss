@@ -1,13 +1,12 @@
 @import '../../../../styles/themes';
 @import '../../../../styles/variables';
 
-// TODO:P - Set static height on container and img
 :host {
   display: flex;
   flex-direction: column;
   padding: 2em;
   margin-bottom: 2em;
-  border: 1px solid rgba(255, 255, 255, 0.3); // TODO:P - Figure out how to pull this from angular theme
+  border: 1px solid $border-color;
   border-radius: 4px;
   background-color: $result-item-background-color;
 }

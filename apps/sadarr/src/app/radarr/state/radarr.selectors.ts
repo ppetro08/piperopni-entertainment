@@ -1,7 +1,8 @@
 import { Dictionary } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { capitalizeFirstLetter } from '../../shared/utils/uppercase';
 import { Movie } from '../models/radarr';
-import { MovieApi } from '../models/radarr-api';
+import { MovieApi, MovieStatusApi } from '../models/radarr-api';
 import { RadarrEntity } from './radarr.models';
 import { radarrAdapter, RADARR_FEATURE_KEY, State } from './radarr.reducer';
 
@@ -73,6 +74,16 @@ export const getRadarrSearchLoading = createSelector(
   (state: State) => state.searchLoading
 );
 
+function convertStatusStringToReadable(status: MovieStatusApi): string {
+  if (status === 'incinemas') {
+    return 'In Cinemas';
+  } else if (status === 'predb') {
+    return '';
+  }
+
+  return capitalizeFirstLetter(status);
+}
+
 function convertRadarrApiToRadarr(radarrApi: MovieApi): Movie {
   return {
     id: radarrApi.id,
@@ -84,7 +95,7 @@ function convertRadarrApiToRadarr(radarrApi: MovieApi): Movie {
     remotePoster: radarrApi.remotePoster
       ? radarrApi.remotePoster
       : radarrApi?.images[0]?.remoteUrl,
-    status: radarrApi.status,
+    status: convertStatusStringToReadable(radarrApi.status),
     title: radarrApi.title,
     tmdbId: radarrApi.tmdbId,
     hasFile: radarrApi.hasFile,
