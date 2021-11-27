@@ -131,8 +131,7 @@
           "builder": "@nrwl/cypress:cypress",
           "options": {
             "cypressConfig": "apps/sadarr-e2e/cypress.json",
-            "devServerTarget": "sadarr:serve:development",
-            "tsConfig": "apps/sadarr-e2e/tsconfig.json"
+            "devServerTarget": "sadarr:serve:development"
           },
           "configurations": {
             "production": {
