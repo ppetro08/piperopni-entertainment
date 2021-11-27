@@ -9,7 +9,7 @@ export class TimeService {
     const minutes = timeInMinutes % 60;
 
     if (hours > 0) {
-      return `${hours}h${minutes}m`;
+      return `${hours}h ${minutes}m`;
     }
     return `${minutes}m`;
   }

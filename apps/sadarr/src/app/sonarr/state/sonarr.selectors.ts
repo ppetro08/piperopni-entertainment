@@ -1,9 +1,9 @@
 import { Dictionary } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { Series, AddEvent } from '../model/series';
-import { SeriesApi, SeasonApi, AddSeriesApi } from '../model/series-api';
+import { Series } from '../model/series';
+import { SeasonApi, SeriesApi } from '../model/series-api';
 import { SonarrEntity } from './sonarr.models';
-import { SONARR_FEATURE_KEY, State, sonarrAdapter } from './sonarr.reducer';
+import { sonarrAdapter, SONARR_FEATURE_KEY, State } from './sonarr.reducer';
 
 // Lookup the 'Sonarr' feature state managed by NgRx
 export const getSonarrState = createFeatureSelector<State>(SONARR_FEATURE_KEY);
@@ -20,8 +20,9 @@ export const getSonarrError = createSelector(
   (state: State) => state.error
 );
 
-export const getSonarrAllSeries = createSelector(getSonarrState, (state: State) =>
-  selectAll(state)
+export const getSonarrAllSeries = createSelector(
+  getSonarrState,
+  (state: State) => selectAll(state)
 );
 
 export const getSonarrSeriesDictionary = createSelector(
@@ -50,14 +51,21 @@ export const getSonarrProfiles = createSelector(
   (state: State) => state.profiles
 );
 
-export const getSonarrSearchResults = createSelector(getSonarrState, (state: State) =>
-  state.searchResults
-    ? state.searchResults.map((sa) => convertSeriesApiToSeries(sa))
-    : []
+export const getSonarrSearchResults = createSelector(
+  getSonarrState,
+  (state: State) =>
+    state.searchResults
+      ? state.searchResults.map((sa) => convertSeriesApiToSeries(sa))
+      : []
 );
 
-export const showNoResultsFound = createSelector(getSonarrState, (state: State) =>
-  state.searchLoading === false && state.searchResults.length === 0 && state.searchText !== null && state.searchText !== ""
+export const showNoResultsFound = createSelector(
+  getSonarrState,
+  (state: State) =>
+    state.searchLoading === false &&
+    state.searchResults.length === 0 &&
+    state.searchText !== null &&
+    state.searchText !== ''
 );
 
 export const getSonarrSearchLoading = createSelector(
@@ -69,59 +77,57 @@ function convertSeriesApiToSeries(seriesApi: SeriesApi): Series {
   return {
     added: new Date(seriesApi.added).getTime() > 0,
     id: seriesApi.id,
-    images: seriesApi.images,
     monitored: seriesApi.monitored,
     network: seriesApi.network,
     overview: seriesApi.overview,
-    profile: seriesApi.qualityProfileId,
+    profileId: seriesApi.qualityProfileId,
     rating: seriesApi.ratings ? seriesApi.ratings.value * 10 : undefined,
-    remotePoster: seriesApi.remotePoster,
+    remotePoster: seriesApi.remotePoster
+      ? seriesApi.remotePoster
+      : seriesApi.images.length > 0
+      ? seriesApi.images[0].url
+      : undefined,
     seasonCount: seriesApi.seasonCount,
     seasons: seriesApi.seasons.filter((s: SeasonApi) => s.seasonNumber > 0),
     status: seriesApi.status,
     title: seriesApi.title,
-    titleSlug: seriesApi.titleSlug,
     tvdbId: seriesApi.tvdbId,
     year: seriesApi.year,
   };
 }
 
-function convertAddEventToAddEventApi(
-  addEvent: AddEvent,
-  rootFolder: string
-): AddSeriesApi {
-  if (rootFolder === null) {
-    throw Error('Somehow rootFolder is null');
-  }
+// function convertAddEventToAddEventApi(
+//   addEvent: AddEvent,
+//   rootFolder: string
+// ): AddSeriesApi {
+//   if (rootFolder === null) {
+//     throw Error('Somehow rootFolder is null');
+//   }
 
-  let seasons: SeasonApi[] = [];
-  if (addEvent.all) {
-    // TODO:P - Go find all seasons from the store and send it
-  } else if (addEvent.seasons.length > 0) {
-    seasons = addEvent.seasons.map((s: number) => {
-      return {
-        monitored: true,
-        seasonNumber: s,
-      };
-    });
-  } else {
-    throw Error('Seasons must be supplied');
-  }
+//   let seasons: SeasonApi[] = [];
+//   if (addEvent.all) {
+//     // TODO:P - Go find all seasons from the store and send it
+//   } else if (addEvent.seasonIds.length > 0) {
+//     seasons = addEvent.seasonIds.map((s: number) => {
+//       return {
+//         monitored: true,
+//         seasonNumber: s,
+//       };
+//     });
+//   } else {
+//     throw Error('Seasons must be supplied');
+//   }
 
-  // TODO:P - If there is already a series with the same folder name add year to folder as well?
-  return {
-    addOptions: {
-      monitor: 'None',
-      searchForMissingEpisodes: false, // TODO:P - These need to be thought about more
-      searchForCutoffUnmetEpisodes: false, // TODO:P - These need to be thought about more
-    },
-    folder: addEvent.title,
-    images: addEvent.images,
-    profileId: addEvent.profileId,
-    rootFolderPath: rootFolder,
-    seasons,
-    title: addEvent.title,
-    titleSlug: addEvent.titleSlug,
-    tvdbId: addEvent.tvdbId,
-  };
-}
+//   // TODO:P - If there is already a series with the same folder name add year to folder as well?
+//   return {
+//     addOptions: {
+//       monitor: 'None',
+//       searchForMissingEpisodes: false, // TODO:P - These need to be thought about more
+//       searchForCutoffUnmetEpisodes: false, // TODO:P - These need to be thought about more
+//     },
+//     profileId: addEvent.profileId,
+//     rootFolderPath: rootFolder,
+//     seasons,
+//     tvdbId: addEvent.tvdbId,
+//   };
+// }

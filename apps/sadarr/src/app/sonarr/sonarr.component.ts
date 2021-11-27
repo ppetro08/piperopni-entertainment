@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   OnDestroy,
+  ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -10,6 +11,7 @@ import { Observable, Subject } from 'rxjs';
 import { debounceTime, takeUntil, tap } from 'rxjs/operators';
 import { Profile } from '../shared/profile-select/profile';
 import { AddEvent, Series } from './model/series';
+import { ResultsContainerComponent } from './results/container/results-container.component';
 import { SonarrApiService } from './sonarr.api.service';
 import { clearSearch, search, sonarrInit } from './state/sonarr.actions';
 import { SonarrPartialState } from './state/sonarr.reducer';
@@ -28,6 +30,9 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SonarrComponent implements OnDestroy {
+  @ViewChild(ResultsContainerComponent)
+  resultsContainerComponent: ResultsContainerComponent | null = null;
+
   data$: Observable<Series[]>;
 
   profiles$: Observable<Profile[]>;
@@ -69,6 +74,7 @@ export class SonarrComponent implements OnDestroy {
         } else {
           this.sonarrStore.dispatch(clearSearch());
         }
+        this.resultsContainerComponent?.scrollToTop();
       });
   }
 

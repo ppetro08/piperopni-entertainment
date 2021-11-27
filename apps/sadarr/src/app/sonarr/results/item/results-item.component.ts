@@ -61,11 +61,9 @@ export class ResultsItemComponent implements OnDestroy {
     const resultItemFormValue: ResultItemFormValue = this.formGroup.value;
     return {
       all: resultItemFormValue.all,
-      images: series.images,
+      id: series.id,
       profileId: resultItemFormValue.profile,
-      seasons: resultItemFormValue.seasons,
-      title: series.title,
-      titleSlug: series.titleSlug,
+      seasonIds: resultItemFormValue.seasons,
       tvdbId: series.tvdbId,
     };
   }

@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
-import { LozengeModule } from '../../../shared/lozenge/lozenge.module'; // TODO:P - Move lozenge to shared
+import { LozengeModule } from '../../../shared/lozenge/lozenge.module';
 import { ProfileSelectModule } from '../../../shared/profile-select/profile-select.module';
 import { ResultsModule } from '../results.module';
 import { ResultsItemComponent } from './results-item.component';

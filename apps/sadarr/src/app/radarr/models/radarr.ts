@@ -1,4 +1,3 @@
-// TODO:P - Update sonarr model to be more similar to the radarr interface
 export interface Movie {
   hasFile: boolean;
   id: number;
@@ -16,6 +15,7 @@ export interface Movie {
 }
 
 export interface AddEvent {
+  id?: number;
   profileId: number;
   tmdbId: number;
 }

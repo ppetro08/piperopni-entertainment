@@ -44,25 +44,11 @@ Primary.args = {
   item: {
     added: true,
     id: 1,
-    images: [
-      {
-        coverType: 'banner',
-        url: 'https://artworks.thetvdb.com/banners/graphical/266189-g20.jpg',
-      },
-      {
-        coverType: 'poster',
-        url: 'https://artworks.thetvdb.com/banners/posters/266189-1.jpg',
-      },
-      {
-        coverType: 'fanart',
-        url: 'https://artworks.thetvdb.com/banners/fanart/original/266189-1.jpg',
-      },
-    ],
     monitored: true,
     network: 'NBC',
     overview:
       'Raymond “Red” Reddington, one of the FBI’s most wanted fugitives, surrenders in person at FBI Headquarters in Washington, D.C. He claims that he and the FBI have the same interests—bringing down dangerous criminals and terrorists. In the last two decades, he’s made a list of criminals and terrorists that matter the most but the FBI cannot find because it does not know they exist. Reddington calls this “The Blacklist.” Reddington will co-operate with the FBI, but insists that he will speak only to Elizabeth Keen, a rookie profiler.',
-    profile: 7,
+    profileId: 7,
     rating: 87,
     remotePoster: 'https://artworks.thetvdb.com/banners/posters/266189-1.jpg',
     seasonCount: 9,
@@ -106,7 +92,6 @@ Primary.args = {
     ],
     status: 'continuing',
     title: 'The Blacklist',
-    titleSlug: 'the-blacklist',
     tvdbId: 266189,
     year: 2013,
   },

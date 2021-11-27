@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   OnDestroy,
+  ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -11,6 +12,7 @@ import { debounceTime, takeUntil, tap } from 'rxjs/operators';
 import { Profile } from '../shared/profile-select/profile';
 import { AddEvent, Movie } from './models/radarr';
 import { RadarrApiService } from './radarr.api.service';
+import { ResultsContainerComponent } from './results/container/results-container.component';
 import { clearSearch, radarrInit, search } from './state/radarr.actions';
 import { RadarrPartialState } from './state/radarr.reducer';
 import {
@@ -28,6 +30,9 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RadarrComponent implements OnDestroy {
+  @ViewChild(ResultsContainerComponent)
+  resultsContainerComponent: ResultsContainerComponent | null = null;
+
   data$: Observable<Movie[]>;
 
   profiles$: Observable<Profile[]>;
@@ -65,6 +70,7 @@ export class RadarrComponent implements OnDestroy {
         } else {
           this.radarrStore.dispatch(clearSearch());
         }
+        this.resultsContainerComponent?.scrollToTop();
       });
   }
 

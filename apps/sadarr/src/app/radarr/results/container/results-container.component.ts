@@ -1,14 +1,14 @@
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
   Output,
+  ViewChild,
 } from '@angular/core';
 import { Profile } from '../../../shared/profile-select/profile';
 import { AddEvent, Movie } from '../../models/radarr';
-
-// TODO:P - scroll to top when searching again
 
 @Component({
   selector: 'pip-radarr-results-container',
@@ -46,7 +46,14 @@ export class ResultsContainerComponent {
 
   @Output() addClick = new EventEmitter<AddEvent>();
 
+  @ViewChild(CdkVirtualScrollViewport)
+  cdkVirtualScrollViewport: CdkVirtualScrollViewport | null = null;
+
   addClicked(item: AddEvent): void {
     this.addClick.emit(item);
+  }
+
+  scrollToTop(): void {
+    this.cdkVirtualScrollViewport?.scrollToOffset(0);
   }
 }
