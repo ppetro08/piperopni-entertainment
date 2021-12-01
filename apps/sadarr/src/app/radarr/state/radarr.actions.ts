@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { RootFolderApi } from '../../shared/models/root-folder-api';
 import { Profile } from '../../shared/profile-select/profile';
+import { AddEvent } from '../models/radarr';
 import { MovieApi } from '../models/radarr-api';
 import { RadarrEntity } from './radarr.models';
 
@@ -31,3 +32,25 @@ export const searchFailure = createAction(
   props<{ error: any }>()
 );
 export const clearSearch = createAction('[Radarr/API] Clear Search');
+
+export const addMovie = createAction(
+  '[Radarr/API] Add Movie',
+  props<{ addMovie: AddEvent }>()
+);
+export const addMovieSuccess = createAction(
+  '[Radarr/API] Add Movie Success',
+  props<{ id: number }>()
+);
+export const addMovieFailure = createAction(
+  '[Radarr/API] Add Movie Failure',
+  props<{ error: any }>()
+);
+
+export const getAddedMovieSuccess = createAction(
+  '[Radarr/API] Get Added Movie Success',
+  props<{ addedMovie: MovieApi }>()
+);
+export const getAddedMovieFailure = createAction(
+  '[Radarr/API] Add Movie Failure',
+  props<{ error: any }>()
+);

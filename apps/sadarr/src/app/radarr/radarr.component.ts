@@ -8,14 +8,20 @@ import {
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, takeUntil, tap } from 'rxjs/operators';
+import { debounceTime, map, takeUntil, tap } from 'rxjs/operators';
 import { Profile } from '../shared/profile-select/profile';
 import { AddEvent, Movie } from './models/radarr';
 import { RadarrApiService } from './radarr.api.service';
 import { ResultsContainerComponent } from './results/container/results-container.component';
-import { clearSearch, radarrInit, search } from './state/radarr.actions';
+import {
+  addMovie,
+  clearSearch,
+  radarrInit,
+  search,
+} from './state/radarr.actions';
 import { RadarrPartialState } from './state/radarr.reducer';
 import {
+  convertRadarrApiToRadarr,
   getRadarrProfiles,
   getRadarrSearchLoading,
   getRadarrSearchResults,
@@ -30,7 +36,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RadarrComponent implements OnDestroy {
-  @ViewChild(ResultsContainerComponent)
+  @ViewChild(ResultsContainerComponent) // TODO - Create interface instead of using component directly
   resultsContainerComponent: ResultsContainerComponent | null = null;
 
   data$: Observable<Movie[]>;
@@ -51,9 +57,10 @@ export class RadarrComponent implements OnDestroy {
     private radarrStore: Store<RadarrPartialState>
   ) {
     this.radarrStore.dispatch(radarrInit());
-    this.data$ = this.radarrStore
-      .select(getRadarrSearchResults)
-      .pipe(tap(() => this.changeDetectorRef.markForCheck()));
+    this.data$ = this.radarrStore.select(getRadarrSearchResults).pipe(
+      tap(() => this.changeDetectorRef.markForCheck()),
+      map((sr) => sr.map((movieApi) => convertRadarrApiToRadarr(movieApi)))
+    );
     this.searchLoading$ = this.radarrStore.select(getRadarrSearchLoading);
     this.profiles$ = this.radarrStore.select(getRadarrProfiles);
     this.showNoResultsFound$ = this.radarrStore.select(showNoResultsFound);
@@ -81,5 +88,6 @@ export class RadarrComponent implements OnDestroy {
   addClicked(item: AddEvent): void {
     // TODO:P - Update to dispatch action
     // this.radarrApiService.addSeries(item);
+    this.radarrStore.dispatch(addMovie({ addMovie: item }));
   }
 }

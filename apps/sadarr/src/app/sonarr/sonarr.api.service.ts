@@ -9,7 +9,7 @@ import { SeriesApi } from './model/series-api';
 // TODO:P - Find out what takes so long when getting alot of results 'blacklis'
 @Injectable()
 export class SonarrApiService implements OnDestroy {
-  private apiUrl = 'http://piperopni.ddns.net:38082/api';
+  private apiUrl = 'http://piperopni.ddns.net:38082/api/v3';
 
   private headers = new HttpHeaders({
     Accept: 'application/json',

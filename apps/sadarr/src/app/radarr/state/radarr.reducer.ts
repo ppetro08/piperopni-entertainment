@@ -82,7 +82,27 @@ const radarrReducer = createReducer(
     searchLoading: false,
     searchText: '',
     searchResults: [],
-  }))
+  })),
+
+  on(RadarrActions.addMovie, (state) => ({
+    ...state,
+    searchLoading: true,
+  })),
+  on(RadarrActions.getAddedMovieSuccess, (state, action) => ({
+    ...radarrAdapter.addOne(action.addedMovie, state),
+    searchLoading: false,
+    searchText: '',
+    searchResults: [],
+  })),
+  on(
+    RadarrActions.addMovieFailure,
+    RadarrActions.getAddedMovieFailure,
+    (state, { error }) => ({
+      ...state,
+      searchLoading: false,
+      error,
+    })
+  )
 );
 
 export function reducer(state: State | undefined, action: Action) {

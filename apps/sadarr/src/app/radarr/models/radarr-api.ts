@@ -14,17 +14,17 @@ export interface MovieApi {
   overview: string;
   path: string;
   physicalRelease: string;
-  qualityProfileId: 0;
+  qualityProfileId: number;
   ratings: RatingsApi;
   remotePoster: string;
   rootFolderPath: string;
-  runtime: 0;
+  runtime: number;
   sortTitle: string;
   status: MovieStatusApi;
   studio: string;
   title: string;
   titleSlug: string;
-  tmdbId: 0;
+  tmdbId: number;
   year: number;
   youtubeTrailerId: string;
 }

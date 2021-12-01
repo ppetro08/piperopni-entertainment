@@ -54,10 +54,7 @@ export const getRadarrProfiles = createSelector(
 
 export const getRadarrSearchResults = createSelector(
   getRadarrState,
-  (state: State) =>
-    state.searchResults
-      ? state.searchResults.map((sa) => convertRadarrApiToRadarr(sa))
-      : []
+  (state: State) => state.searchResults
 );
 
 export const showNoResultsFound = createSelector(
@@ -84,7 +81,8 @@ function convertStatusStringToReadable(status: MovieStatusApi): string {
   return capitalizeFirstLetter(status);
 }
 
-function convertRadarrApiToRadarr(radarrApi: MovieApi): Movie {
+// TODO - Find a good place to keep this method
+export function convertRadarrApiToRadarr(radarrApi: MovieApi): Movie {
   return {
     id: radarrApi.id,
     monitored: radarrApi.monitored,

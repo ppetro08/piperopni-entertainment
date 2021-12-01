@@ -34,7 +34,7 @@ export class ResultsItemComponent implements OnDestroy {
 
   constructor() {
     this.formGroup = new FormGroup({
-      profile: new FormControl(7),
+      profile: new FormControl(6),
     });
   }
 

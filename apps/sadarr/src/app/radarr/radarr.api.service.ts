@@ -8,7 +8,7 @@ import { MovieApi } from './models/radarr-api';
 
 @Injectable()
 export class RadarrApiService implements OnDestroy {
-  private apiUrl = 'http://piperopni.ddns.net:38084/api';
+  private apiUrl = 'http://piperopni.ddns.net:38084/api/v3';
 
   private headers = new HttpHeaders({
     Accept: 'application/json',
@@ -22,6 +22,20 @@ export class RadarrApiService implements OnDestroy {
 
   ngOnDestroy(): void {
     this.destroyed$.next();
+  }
+
+  // TODO - Double check the return on this
+  addMovie(movie: MovieApi): Observable<number> {
+    // TODO - Do I need to jsonify movie?
+    return this.http.post<number>(`${this.apiUrl}/movie`, movie, {
+      headers: this.headers,
+    });
+  }
+
+  getMovie(id: number): Observable<MovieApi> {
+    return this.http.get<MovieApi>(`${this.apiUrl}/movie/${id}`, {
+      headers: this.headers,
+    });
   }
 
   loadAllMovies(): Observable<MovieApi[]> {
