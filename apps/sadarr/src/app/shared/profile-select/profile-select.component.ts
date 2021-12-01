@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
-import { MatSelect } from '@angular/material/select';
+import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Profile } from './profile';
@@ -25,35 +25,17 @@ import { Profile } from './profile';
   ],
 })
 export class ProfileSelectComponent
-  implements OnDestroy, MatFormFieldControl<Profile>, ControlValueAccessor
+  implements OnDestroy, MatFormFieldControl<number>, ControlValueAccessor
 {
-  @Input()
-  public set profiles(value: Profile[] | null) {
-    if (value === null) {
-      value = [];
-    } else {
-      value.forEach((p: Profile) => {
-        this.profileMap.set(p.id, p);
-      });
-    }
+  // #region MatFormControl implementation
+  static nextId = 0;
 
-    if (this.profileId && value === null) {
-      this.setValueByProfileId(this.profileId);
-    }
-
-    this._profiles = value;
-  }
-  public get profiles(): Profile[] {
-    return this._profiles;
-  }
-  private _profiles: Profile[] = [];
-
-  @Input() public set disabled(value) {
+  @Input() set disabled(value) {
     this._disabled = coerceBooleanProperty(value);
     this.stateChanges.next();
   }
 
-  public get disabled() {
+  get disabled() {
     return this._disabled;
   }
 
@@ -71,11 +53,9 @@ export class ProfileSelectComponent
 
   private _required = true;
 
-  @ViewChild(MatSelect) matSelect?: MatSelect;
-
   autofilled? = false;
 
-  controlType?: string;
+  controlType?: string = 'pip-profile-select-input';
 
   empty = false;
 
@@ -83,7 +63,7 @@ export class ProfileSelectComponent
 
   focused = false;
 
-  id = 'pip-profile-select-input';
+  id = `pip-profile-select-input-${ProfileSelectComponent.nextId}`;
 
   placeholder = '';
 
@@ -92,20 +72,28 @@ export class ProfileSelectComponent
   stateChanges = new Subject<void>();
 
   userAriaDescribedBy?: string | undefined;
+  // #endregion
 
-  value: Profile | null = null;
+  @Input() profiles: Profile[] = [];
 
-  private profileId: number | null = null;
+  @ViewChild(MatSelect) matSelect?: MatSelect;
 
-  private profileMap = new Map<number, Profile>();
+  set value(value: number | null) {
+    this._value = value;
+    this.stateChanges.next();
+  }
+  get value(): number | null {
+    return this._value;
+  }
+  private _value: number | null = null;
 
   private destroyed$ = new Subject<void>();
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onChange: () => void = () => {};
+  onChange = (_: any) => {};
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onTouched: () => void = () => {};
+  onTouched = () => {};
 
   constructor(
     private elementRef: ElementRef,
@@ -128,25 +116,14 @@ export class ProfileSelectComponent
     this.destroyed$.next();
   }
 
-  private setValueByProfileId(profileId: number): void {
-    const profile: Profile | undefined = this.profileMap.get(profileId);
-    if (profile) {
-      this.setValue(profile);
-    }
-  }
-
-  private setValue(profile: Profile): void {
-    this.value = profile;
-    this.stateChanges.next();
+  handleMatSelectChange(matSelectChange: MatSelectChange): void {
+    this.writeValue(matSelectChange.value);
+    this.onChange(this.value);
   }
 
   // #region ValueControlAccessor implementation
   writeValue(profileId: number): void {
-    this.profileId = profileId;
-    const profile: Profile | undefined = this.profileMap.get(profileId);
-    if (profile !== undefined) {
-      this.setValue(profile);
-    }
+    this.value = profileId;
   }
 
   registerOnChange(fn: any): void {
