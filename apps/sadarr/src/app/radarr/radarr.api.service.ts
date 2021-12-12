@@ -4,7 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { RootFolderApi } from '../shared/models/root-folder-api';
 import { Profile } from '../shared/profile-select/profile';
-import { MovieApi } from './models/radarr-api';
+import { AddMovieResponseApi, MovieLookupApi } from './models/radarr-api';
 
 @Injectable()
 export class RadarrApiService implements OnDestroy {
@@ -24,22 +24,21 @@ export class RadarrApiService implements OnDestroy {
     this.destroyed$.next();
   }
 
-  // TODO - Double check the return on this
-  addMovie(movie: MovieApi): Observable<number> {
+  addMovie(movie: MovieLookupApi): Observable<AddMovieResponseApi> {
     // TODO - Do I need to jsonify movie?
-    return this.http.post<number>(`${this.apiUrl}/movie`, movie, {
+    return this.http.post<AddMovieResponseApi>(`${this.apiUrl}/movie`, movie, {
       headers: this.headers,
     });
   }
 
-  getMovie(id: number): Observable<MovieApi> {
-    return this.http.get<MovieApi>(`${this.apiUrl}/movie/${id}`, {
+  getMovie(id: number): Observable<MovieLookupApi> {
+    return this.http.get<MovieLookupApi>(`${this.apiUrl}/movie/${id}`, {
       headers: this.headers,
     });
   }
 
-  loadAllMovies(): Observable<MovieApi[]> {
-    return this.http.get<MovieApi[]>(`${this.apiUrl}/movie`, {
+  loadAllMovies(): Observable<MovieLookupApi[]> {
+    return this.http.get<MovieLookupApi[]>(`${this.apiUrl}/movie`, {
       headers: this.headers,
     });
   }
@@ -56,9 +55,9 @@ export class RadarrApiService implements OnDestroy {
     });
   }
 
-  search(searchText: string): Observable<MovieApi[]> {
+  search(searchText: string): Observable<MovieLookupApi[]> {
     return this.http
-      .get<MovieApi[]>(`${this.apiUrl}/movie/lookup?term=${searchText}`, {
+      .get<MovieLookupApi[]>(`${this.apiUrl}/movie/lookup?term=${searchText}`, {
         headers: this.headers,
       })
       .pipe(

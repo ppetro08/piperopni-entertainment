@@ -86,8 +86,6 @@ export class RadarrComponent implements OnDestroy {
   }
 
   addClicked(item: AddEvent): void {
-    // TODO:P - Update to dispatch action
-    // this.radarrApiService.addSeries(item);
     this.radarrStore.dispatch(addMovie({ addMovie: item }));
   }
 }

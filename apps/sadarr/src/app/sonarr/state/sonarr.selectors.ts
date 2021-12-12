@@ -5,7 +5,6 @@ import { SeasonApi, SeriesApi } from '../model/series-api';
 import { SonarrEntity } from './sonarr.models';
 import { sonarrAdapter, SONARR_FEATURE_KEY, State } from './sonarr.reducer';
 
-// Lookup the 'Sonarr' feature state managed by NgRx
 export const getSonarrState = createFeatureSelector<State>(SONARR_FEATURE_KEY);
 
 const { selectAll, selectEntities } = sonarrAdapter.getSelectors();

@@ -1,12 +1,12 @@
 import { Dictionary } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { RootFolderApi } from '../../shared/models/root-folder-api';
 import { capitalizeFirstLetter } from '../../shared/utils/uppercase';
 import { Movie } from '../models/radarr';
-import { MovieApi, MovieStatusApi } from '../models/radarr-api';
+import { MovieLookupApi, MovieStatusApi } from '../models/radarr-api';
 import { RadarrEntity } from './radarr.models';
 import { radarrAdapter, RADARR_FEATURE_KEY, State } from './radarr.reducer';
 
-// Lookup the 'Radarr' feature state managed by NgRx
 export const getRadarrState = createFeatureSelector<State>(RADARR_FEATURE_KEY);
 
 const { selectAll, selectEntities } = radarrAdapter.getSelectors();
@@ -42,9 +42,14 @@ export const getRadarrRootFolders = createSelector(
   (state: State) => state.rootFolders
 );
 
+export function getRadarrDefaultFolderFromRootFolders(
+  rootFolders: RootFolderApi[]
+): string | null {
+  return rootFolders ? rootFolders[0].path : null;
+}
 export const getRadarrDefaultRootFolderPath = createSelector(
   getRadarrRootFolders,
-  (rootFolders) => (rootFolders ? rootFolders[0].path : null)
+  (rootFolders) => getRadarrDefaultFolderFromRootFolders(rootFolders)
 );
 
 export const getRadarrProfiles = createSelector(
@@ -82,7 +87,7 @@ function convertStatusStringToReadable(status: MovieStatusApi): string {
 }
 
 // TODO - Find a good place to keep this method
-export function convertRadarrApiToRadarr(radarrApi: MovieApi): Movie {
+export function convertRadarrApiToRadarr(radarrApi: MovieLookupApi): Movie {
   return {
     id: radarrApi.id,
     monitored: radarrApi.monitored,

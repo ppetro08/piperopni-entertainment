@@ -1,29 +1,27 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
-import { fetch } from '@nrwl/angular';
+import { DataPersistence, fetch, pessimisticUpdate } from '@nrwl/angular';
 import { forkJoin } from 'rxjs';
-import { map, take, withLatestFrom } from 'rxjs/operators';
-import { MovieApi } from '../models/radarr-api';
+import { map, take } from 'rxjs/operators';
+import { AddMovieResponseApi, MovieLookupApi } from '../models/radarr-api';
 import { RadarrApiService } from '../radarr.api.service';
 import * as RadarrActions from './radarr.actions';
-import { RadarrPartialState } from './radarr.reducer';
-import { getRadarrSearchResults } from './radarr.selectors';
+import { State } from './radarr.reducer';
+import { getRadarrDefaultFolderFromRootFolders } from './radarr.selectors';
 
 @Injectable()
 export class RadarrEffects {
   addMovie$ = createEffect(() =>
     this.actions$.pipe(
       ofType(RadarrActions.addMovie),
-      withLatestFrom(this.radarrStore.select(getRadarrSearchResults)),
-      fetch({
-        run: (action, searchResults) => {
-          if (!searchResults) {
+      pessimisticUpdate({
+        run: (action, state: State) => {
+          if (!state.searchResults) {
             throw Error(
-              'TODO Figure out how to property go into the on error block'
+              'TODO Figure out how to properly go into the on error block'
             );
           }
-          const movieToAdd = searchResults.find(
+          const movieToAdd = state.searchResults.find(
             (sr) =>
               sr.id === action.addMovie.id ||
               sr.tmdbId === action.addMovie.tmdbId
@@ -31,20 +29,30 @@ export class RadarrEffects {
 
           if (!movieToAdd) {
             throw Error(
-              'TODO Figure out how to property go into the on error block'
+              'TODO Figure out how to properly go into the on error block'
             );
           }
 
-          // TODO - need to set path and rootfolderpath, look at sonarr I think it already does it
+          const rootFolderPath: string | null =
+            getRadarrDefaultFolderFromRootFolders(state.rootFolders);
+
+          if (!rootFolderPath) {
+            throw Error(
+              'TODO Figure out how to properly go into the on error block'
+            );
+          }
 
           return this.radarrApiService
             .addMovie({
               ...movieToAdd,
               qualityProfileId: action.addMovie.profileId,
+              rootFolderPath,
             })
             .pipe(
-              map((id: number) => {
-                return RadarrActions.addMovieSuccess({ id });
+              map((addMovieResponseApi: AddMovieResponseApi) => {
+                return RadarrActions.addMovieSuccess({
+                  addMovieResponse: addMovieResponseApi,
+                });
               })
             );
         },
@@ -61,11 +69,15 @@ export class RadarrEffects {
       ofType(RadarrActions.addMovieSuccess),
       fetch({
         run: (action) => {
-          return this.radarrApiService.getMovie(action.id).pipe(
-            map((addedMovie: MovieApi) => {
-              return RadarrActions.getAddedMovieSuccess({ addedMovie });
-            })
-          );
+          // TODO - Don't need to go get the movie again,
+          //        can merge the post response to the lookup model in the store
+          return this.radarrApiService
+            .getMovie(action.addMovieResponse.id)
+            .pipe(
+              map((addedMovie: MovieLookupApi) => {
+                return RadarrActions.getAddedMovieSuccess({ addedMovie });
+              })
+            );
         },
         onError: (action, error) => {
           console.error('Error', error);
@@ -128,6 +140,6 @@ export class RadarrEffects {
   constructor(
     private readonly actions$: Actions,
     private radarrApiService: RadarrApiService,
-    private radarrStore: Store<RadarrPartialState>
+    private dataPersistence: DataPersistence<State>
   ) {}
 }

@@ -2,7 +2,7 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Action, createReducer, on } from '@ngrx/store';
 import { RootFolderApi } from '../../shared/models/root-folder-api';
 import { Profile } from '../../shared/profile-select/profile';
-import { MovieApi } from '../models/radarr-api';
+import { MovieLookupApi } from '../models/radarr-api';
 import * as RadarrActions from './radarr.actions';
 import { RadarrEntity } from './radarr.models';
 
@@ -14,7 +14,7 @@ export interface State extends EntityState<RadarrEntity> {
   profiles: Profile[];
   rootFolders: RootFolderApi[];
   searchLoading: boolean | null;
-  searchResults: MovieApi[];
+  searchResults: MovieLookupApi[];
   searchText: string | null;
 }
 

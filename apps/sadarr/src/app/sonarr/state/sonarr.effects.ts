@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { createEffect, Actions, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { fetch } from '@nrwl/angular';
 import { forkJoin } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { SonarrApiService } from '../sonarr.api.service';
-
 import * as SonarrActions from './sonarr.actions';
 
 @Injectable()
