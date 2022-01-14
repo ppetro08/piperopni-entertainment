@@ -13,6 +13,13 @@ const routes: Routes = [
       import('./radarr/radarr.module').then((m) => m.RadarrModule),
   },
   {
+    path: 'authentication',
+    loadChildren: () =>
+      import('./authentication/authentication.module').then(
+        (m) => m.AuthenticationModule
+      ),
+  },
+  {
     path: '',
     redirectTo: '',
     pathMatch: 'full',

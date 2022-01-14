@@ -1,0 +1,10 @@
+.register-form {
+  display: flex;
+  flex-direction: column;
+  width: 320px;
+  margin: 0 auto;
+  font-size: 12px;
+  .mat-form-field {
+    flex: 1;
+  }
+}
