@@ -1,7 +1,6 @@
 {
   "recommendations": [
     "angular.ng-template",
-    "coenraads.bracket-pair-colorizer-2",
     "cyrilletuzi.angular-schematics",
     "dbaeumer.vscode-eslint",
     "eg2.vscode-npm-script",
@@ -10,7 +9,6 @@
     "formulahendry.auto-rename-tag",
     "infinity1207.angular2-switcher",
     "johnpapa.angular2",
-    "mjcrouch.perforce",
     "mrmlnc.vscode-scss",
     "ms-vscode.powershell",
     "nrwl.angular-console",

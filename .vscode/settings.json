@@ -3,6 +3,8 @@
     "source.fixAll.eslint": true,
     "source.organizeImports": true
   },
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": "active",
   "editor.minimap.enabled": false,
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
