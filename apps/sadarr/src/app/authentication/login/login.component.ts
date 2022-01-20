@@ -1,5 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { LoginModel } from '../model/login.model';
+import { authenticationLogin } from '../state/authentication.actions';
 
 @Component({
   selector: 'pip-login',
@@ -10,7 +13,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class LoginComponent {
   form: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private store: Store) {
     this.form = this.formBuilder.group({
       email: this.formBuilder.control(null, [
         Validators.email,
@@ -20,5 +23,8 @@ export class LoginComponent {
     });
   }
 
-  login(form: FormGroup): void {}
+  login(form: FormGroup): void {
+    const loginModel: LoginModel = form.value;
+    this.store.dispatch(authenticationLogin({ login: loginModel }));
+  }
 }

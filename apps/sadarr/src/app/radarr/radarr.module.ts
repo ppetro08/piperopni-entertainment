@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { DataPersistence } from '@nrwl/angular';
 import { LoadingOverlayModule } from '../shared/loading-overlay/loading-overlay.module';
 import { RadarrRoutingModule } from './radarr-routing.module';
 import { RadarrApiService } from './radarr.api.service';
@@ -31,6 +32,6 @@ import * as fromRadarr from './state/radarr.reducer';
     EffectsModule.forFeature([RadarrEffects]),
   ],
   declarations: [RadarrComponent],
-  providers: [RadarrApiService],
+  providers: [RadarrApiService, DataPersistence],
 })
 export class RadarrModule {}

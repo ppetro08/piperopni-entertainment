@@ -4,9 +4,10 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { AuthenticationContainerComponent } from './authentication-container/authentication-container.component';
 import { AuthenticationRoutingModule } from './authentication-routing.module';
-import { AuthenticationService } from './authentication.service';
 import { ConfirmRegistrationComponent } from './confirm-registration/confirm-registration.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
@@ -18,15 +19,17 @@ import { RegisterComponent } from './register/register.component';
     HttpClientModule,
     MatButtonModule,
     MatFormFieldModule,
+    MatIconModule,
     MatInputModule,
     ReactiveFormsModule,
     AuthenticationRoutingModule,
   ],
   declarations: [
-    RegisterComponent,
+    AuthenticationContainerComponent,
     ConfirmRegistrationComponent,
     LoginComponent,
+    RegisterComponent,
   ],
-  providers: [AuthenticationService],
+  providers: [],
 })
 export class AuthenticationModule {}

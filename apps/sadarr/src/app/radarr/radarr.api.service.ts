@@ -8,6 +8,7 @@ import { AddMovieResponseApi, MovieLookupApi } from './models/radarr-api';
 
 @Injectable()
 export class RadarrApiService implements OnDestroy {
+  // TODO:P - Create proxy def for this and sonarr as well
   private apiUrl = 'http://piperopni.ddns.net:38084/api/v3';
 
   private headers = new HttpHeaders({

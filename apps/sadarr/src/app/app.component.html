@@ -1,5 +1,5 @@
 <!-- TODO:P - make the nav bar sticky, maybe even use the nav-bar element? -->
-<div class="nav-bar">
+<div class="nav-bar" *ngIf="authenticated | async">
   <a class="nav-item" mat-button routerLink="/radarr">Movies</a>
   <a class="nav-item" mat-button routerLink="/sonarr">Tv Shows</a>
 </div>

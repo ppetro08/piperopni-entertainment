@@ -1,1 +1,23 @@
-<p>confirm-registration works!</p>
+<div class="confirm-registration">
+  <pip-authentication-container
+    *ngIf="verified; else complete"
+    headerText="Finalize Registration"
+  >
+    <ng-container authenticationBody>
+      <p>Click the button below to complete your account registration.</p>
+      <button mat-raised-button color="primary" (click)="confirmRegistration()">
+        Confirm Registration
+      </button>
+    </ng-container>
+  </pip-authentication-container>
+
+  <ng-template #complete>
+    <pip-authentication-container headerText="Registration Complete">
+      <ng-container authenticationBody>
+        <mat-icon>check_circle</mat-icon>
+        <p>Your registration is complete. You can now login.</p>
+        <a [routerLink]="['/']" mat-button color="primary">Login Page</a>
+      </ng-container>
+    </pip-authentication-container>
+  </ng-template>
+</div>
