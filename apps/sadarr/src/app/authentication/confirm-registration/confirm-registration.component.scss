@@ -3,17 +3,14 @@
   width: 320px;
 }
 
-p {
-  margin: 0;
-}
-
-button {
-  margin-top: 1em;
-}
-
 .mat-icon {
   color: #32cd32;
-  transform: scale(2);
-  transform-origin: center top;
-  margin: 0.5em 0 1em;
+  height: 48px;
+  width: 48px;
+  font-size: 48px;
+  align-self: center;
+}
+
+p {
+  text-align: center;
 }

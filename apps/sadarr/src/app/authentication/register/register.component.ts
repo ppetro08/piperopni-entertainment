@@ -8,7 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { RegisterModel } from '../model/register.model';
+import { RegisterModel } from '../models/register.model';
 import { authenticationRegister } from '../state/authentication.actions';
 
 const checkPasswords: ValidatorFn = (
@@ -26,7 +26,11 @@ const checkPasswords: ValidatorFn = (
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegisterComponent {
+  emailHasBeenSent = false;
+
   form: FormGroup;
+
+  headerText = 'Register';
 
   constructor(private formBuilder: FormBuilder, private store: Store) {
     this.form = this.formBuilder.group({
@@ -45,8 +49,13 @@ export class RegisterComponent {
   }
 
   register(form: FormGroup): void {
-    // TODO:P - show a message saying that a registration email has been sent, click the link in the email to complete your registration
     const register: RegisterModel = form.value;
     this.store.dispatch(authenticationRegister({ register }));
+    this.emailSent();
+  }
+
+  private emailSent(): void {
+    this.emailHasBeenSent = true;
+    this.headerText = 'Registered';
   }
 }

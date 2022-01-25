@@ -1,7 +1,17 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { authenticationConfirmRegistration } from '../state/authentication.actions';
+import { take } from 'rxjs/operators';
+import {
+  authenticationConfirmRegistration,
+  authenticationConfirmRegistrationSuccess,
+} from '../state/authentication.actions';
 
 @Component({
   selector: 'pip-confirm-registration',
@@ -10,14 +20,26 @@ import { authenticationConfirmRegistration } from '../state/authentication.actio
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfirmRegistrationComponent implements OnInit {
-  verified = true;
+  verified = false;
 
   private queryParamMap: ParamMap | null = null;
 
-  constructor(private route: ActivatedRoute, private store: Store) {}
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private store: Store,
+    private actions$: Actions,
+    private changeDetectoryRef: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
-    this.queryParamMap = this.route.snapshot.queryParamMap;
+    this.queryParamMap = this.activatedRoute.snapshot.queryParamMap;
+
+    this.actions$
+      .pipe(ofType(authenticationConfirmRegistrationSuccess), take(1))
+      .subscribe(() => {
+        this.verified = true;
+        this.changeDetectoryRef.markForCheck();
+      });
   }
 
   confirmRegistration(): void {

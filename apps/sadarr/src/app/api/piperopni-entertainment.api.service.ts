@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ConfirmRegistration } from '../authentication/model/confirm-registration.model';
-import { LoginModel } from '../authentication/model/login.model';
-import { RegisterModel } from '../authentication/model/register.model';
+import { ConfirmRegistration } from '../authentication/models/confirm-registration.model';
+import { LoginModel } from '../authentication/models/login.model';
+import { RegisterModel } from '../authentication/models/register.model';
 import { MessageResponse } from './models/message-response.model';
 import { AuthenticationResponseModel, UserModel } from './models/user.model';
 
@@ -15,7 +15,7 @@ export class PiperopniEntertainmentService {
     confirmRegistration: ConfirmRegistration
   ): Observable<MessageResponse> {
     return this.http.post<MessageResponse>(
-      `/api/authenticate/confirmregistration?userId=${confirmRegistration.userId}&token=${confirmRegistration.token}`,
+      `/api/authenticate/confirmregistration`,
       confirmRegistration
     );
   }
