@@ -1,15 +1,18 @@
 import { createAction, props } from '@ngrx/store';
-import {
-  AuthenticationResponseModel,
-  UserModel,
-} from '../../api/models/user.model';
+import { AuthenticationResponseModel } from '../../api/models/user.model';
 import { ErrorModel } from '../../shared/models/error.model';
-import { LoginModel } from '../model/login.model';
-import { RegisterModel } from '../model/register.model';
+import { LoginModel } from '../models/login.model';
+import { RegisterModel } from '../models/register.model';
 
-export const authenticationInit = createAction(
-  '[Authentication] Init',
-  props<{ token?: string | null; user?: UserModel | null }>()
+export const authenticationUnverifiedSession = createAction(
+  '[Authentication] Unverified Session'
+);
+export const authenticationVerifiedSessionSuccess = createAction(
+  '[Authentication] Verified Session Success',
+  props<{ authenticationResponse: AuthenticationResponseModel }>()
+);
+export const authenticationVerifiedSessionFailure = createAction(
+  '[Authentication] Verified Session Failure'
 );
 
 export const authenticationLogin = createAction(

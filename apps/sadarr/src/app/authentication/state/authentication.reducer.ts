@@ -25,26 +25,22 @@ export const initialState: State = {
 
 const authenticationReducer = createReducer(
   initialState,
-
-  on(AuthenticationActions.authenticationInit, (state, action) => ({
-    ...state,
-    error: null,
-    loading: false,
-    token: action.token ?? null,
-    user: action.user ?? null,
-  })),
   on(AuthenticationActions.authenticationLogin, (state) => ({
     ...state,
     loading: true,
   })),
   on(
+    AuthenticationActions.authenticationVerifiedSessionSuccess,
     AuthenticationActions.authenticationLoginSuccess,
-    (state, { authenticationResponse }) => ({
-      ...state,
-      loading: false,
-      token: authenticationResponse.token,
-      user: authenticationResponse,
-    })
+    (state, { authenticationResponse }) => {
+      return {
+        ...state,
+        error: null,
+        loading: false,
+        token: authenticationResponse.token,
+        user: authenticationResponse,
+      };
+    }
   ),
   on(AuthenticationActions.authenticationLoginFailure, (state, { error }) => ({
     ...state,

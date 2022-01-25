@@ -1,6 +1,7 @@
 <!-- TODO:P - make the nav bar sticky, maybe even use the nav-bar element? -->
-<div class="nav-bar" *ngIf="authenticated | async">
+<div class="nav-bar" *ngIf="showNavBar | async">
   <a class="nav-item" mat-button routerLink="/radarr">Movies</a>
   <a class="nav-item" mat-button routerLink="/sonarr">Tv Shows</a>
 </div>
+<!-- TODO:P - Home page with big tiles for movies / tv shows, if they only have 1 then just go straight to it -->
 <router-outlet></router-outlet>

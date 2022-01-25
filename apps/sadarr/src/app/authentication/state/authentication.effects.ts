@@ -1,52 +1,20 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { fetch } from '@nrwl/angular';
-import { CookieService } from 'ngx-cookie-service';
-import { of } from 'rxjs';
-import { map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
+import { filter, map, take, tap, withLatestFrom } from 'rxjs/operators';
 import { PiperopniEntertainmentService } from '../../api/piperopni-entertainment.api.service';
 import { appInit } from '../../app.actions';
+import { selectUrl } from '../../router/router.reducer';
+import { isAuthenticationRoute } from '../../shared/utils/string';
+import { AuthenticationService } from '../authentication.service';
 import * as AuthenticationActions from './authentication.actions';
-import { authenticationInit } from './authentication.actions';
 import { AuthenticationPartialState } from './authentication.reducer';
-import { getUser, getUserToken } from './authentication.selectors';
+import { getUser } from './authentication.selectors';
 
 @Injectable()
 export class AuthenticationEffects {
-  appInit$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(appInit),
-      withLatestFrom(
-        this.store.select(getUserToken),
-        this.store.select(getUser)
-      ),
-      switchMap(([action, token, user]) => {
-        if (token && !user) {
-          return this.piperopniEntertainmentService.getCurrentUser().pipe(
-            take(1),
-            map((user) => {
-              return authenticationInit({ token, user });
-            })
-          );
-        }
-        return of(authenticationInit({}));
-      })
-    );
-  });
-
-  clearCookie$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(authenticationInit),
-        tap(() => {
-          this.cookieService.deleteAll();
-        })
-      );
-    },
-    { dispatch: false }
-  );
-
   confirmRegistration$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AuthenticationActions.authenticationConfirmRegistration),
@@ -99,7 +67,8 @@ export class AuthenticationEffects {
       this.actions$.pipe(
         ofType(AuthenticationActions.authenticationLoginSuccess),
         tap(({ authenticationResponse }) => {
-          this.cookieService.set('Bearer', authenticationResponse.token);
+          this.authenticationService.setCurrentUser(authenticationResponse);
+          this.router.navigate(['/']);
         })
       ),
     { dispatch: false }
@@ -126,10 +95,55 @@ export class AuthenticationEffects {
     );
   });
 
+  unverifiedSession$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AuthenticationActions.authenticationUnverifiedSession),
+      map(() => {
+        const currentUser = this.authenticationService.getCurrentUser();
+        const cookie = this.authenticationService.getCookie();
+        if (!currentUser) {
+          return AuthenticationActions.authenticationVerifiedSessionFailure();
+        }
+
+        if (!cookie) {
+          this.authenticationService.setCookieToCurrentUserToken();
+        }
+
+        return AuthenticationActions.authenticationVerifiedSessionSuccess({
+          authenticationResponse: currentUser,
+        });
+      })
+    );
+  });
+
+  verifySession$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(appInit),
+        withLatestFrom(this.store.select(getUser)),
+        tap(([action, user]) => {
+          this.store
+            .select(selectUrl)
+            .pipe(
+              filter((v) => v !== undefined),
+              take(1)
+            )
+            .subscribe((url) => {
+              if (!isAuthenticationRoute(url)) {
+                this.authenticationService.verifySession(user);
+              }
+            });
+        })
+      );
+    },
+    { dispatch: false }
+  );
+
   constructor(
     private readonly actions$: Actions,
     private store: Store<AuthenticationPartialState>,
     private piperopniEntertainmentService: PiperopniEntertainmentService,
-    private cookieService: CookieService
+    private router: Router,
+    private authenticationService: AuthenticationService
   ) {}
 }
