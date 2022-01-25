@@ -2,16 +2,20 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { take } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
+import { ErrorModel } from '../../shared/models/error.model';
 import {
   authenticationConfirmRegistration,
   authenticationConfirmRegistrationSuccess,
 } from '../state/authentication.actions';
+import { getAuthenticationError } from '../state/authentication.selectors';
 
 @Component({
   selector: 'pip-confirm-registration',
@@ -19,8 +23,12 @@ import {
   styleUrls: ['./confirm-registration.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfirmRegistrationComponent implements OnInit {
+export class ConfirmRegistrationComponent implements OnInit, OnDestroy {
+  error: ErrorModel | null = null;
+
   verified = false;
+
+  private destroyed$ = new Subject<void>();
 
   private queryParamMap: ParamMap | null = null;
 
@@ -28,7 +36,7 @@ export class ConfirmRegistrationComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private store: Store,
     private actions$: Actions,
-    private changeDetectoryRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -38,8 +46,19 @@ export class ConfirmRegistrationComponent implements OnInit {
       .pipe(ofType(authenticationConfirmRegistrationSuccess), take(1))
       .subscribe(() => {
         this.verified = true;
-        this.changeDetectoryRef.markForCheck();
+        this.changeDetectorRef.markForCheck();
       });
+    this.store
+      .select(getAuthenticationError)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((error) => {
+        this.error = error;
+        this.changeDetectorRef.markForCheck();
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed$.next();
   }
 
   confirmRegistration(): void {

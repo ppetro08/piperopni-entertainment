@@ -1,31 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { Actions, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
 import { CookieService } from 'ngx-cookie-service';
-import { merge, Observable, of } from 'rxjs';
-import { mapTo, tap } from 'rxjs/operators';
-import {
-  AuthenticationResponseModel,
-  UserModel,
-} from '../api/models/user.model';
-import {
-  authenticationUnverifiedSession,
-  authenticationVerifiedSessionFailure,
-  authenticationVerifiedSessionSuccess,
-} from './state/authentication.actions';
+import { AuthenticationResponseModel } from '../api/models/user.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
   private cookieKey = 'Bearer';
   private currentUserKey = 'currentUser';
 
-  constructor(
-    private cookieService: CookieService,
-    private store: Store,
-    private readonly actions$: Actions,
-    private router: Router
-  ) {}
+  constructor(private cookieService: CookieService) {}
 
   getCookie(): string {
     return this.cookieService.get(this.cookieKey);
@@ -58,32 +40,5 @@ export class AuthenticationService {
       JSON.stringify(authenticationResponse)
     );
     this.setCookieToCurrentUserToken();
-  }
-
-  verifySession(user: UserModel | null): Observable<boolean> {
-    if (user) {
-      return of(true);
-    }
-
-    const success = this.actions$.pipe(
-      ofType(authenticationVerifiedSessionSuccess),
-      mapTo(true)
-    );
-
-    const failure = this.actions$.pipe(
-      ofType(authenticationVerifiedSessionFailure),
-      tap(() => {
-        this.router.navigate(['/authentication/login']);
-      }),
-      mapTo(false)
-    );
-
-    this.store.dispatch(authenticationUnverifiedSession());
-
-    return merge(success, failure).pipe(
-      tap((results) => {
-        console.log(results);
-      })
-    );
   }
 }

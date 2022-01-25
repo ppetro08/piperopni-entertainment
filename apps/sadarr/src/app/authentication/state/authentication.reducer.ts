@@ -27,6 +27,7 @@ const authenticationReducer = createReducer(
   initialState,
   on(AuthenticationActions.authenticationLogin, (state) => ({
     ...state,
+    error: null,
     loading: true,
   })),
   on(
@@ -42,11 +43,16 @@ const authenticationReducer = createReducer(
       };
     }
   ),
-  on(AuthenticationActions.authenticationLoginFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
-  }))
+  on(
+    AuthenticationActions.authenticationLoginFailure,
+    AuthenticationActions.authenticationRegisterFailure,
+    AuthenticationActions.authenticationConfirmRegistrationFailure,
+    (state, { error }) => ({
+      ...state,
+      error,
+      loading: false,
+    })
+  )
 );
 
 export function reducer(state: State | undefined, action: Action) {

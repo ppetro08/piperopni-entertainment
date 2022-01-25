@@ -20,7 +20,7 @@ export const getAuthenticationLoading = createSelector(
   (state: State) => state.loading
 );
 
-export const getAuthenticationLoginError = createSelector(
+export const getAuthenticationError = createSelector(
   getAuthenticationState,
   (state: State) => state.error
 );

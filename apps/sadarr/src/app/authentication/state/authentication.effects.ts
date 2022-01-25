@@ -1,17 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
 import { fetch } from '@nrwl/angular';
-import { filter, map, take, tap, withLatestFrom } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 import { PiperopniEntertainmentService } from '../../api/piperopni-entertainment.api.service';
-import { appInit } from '../../app.actions';
-import { selectUrl } from '../../router/router.reducer';
-import { isAuthenticationRoute } from '../../shared/utils/string';
 import { AuthenticationService } from '../authentication.service';
 import * as AuthenticationActions from './authentication.actions';
-import { AuthenticationPartialState } from './authentication.reducer';
-import { getUser } from './authentication.selectors';
 
 @Injectable()
 export class AuthenticationEffects {
@@ -32,7 +26,7 @@ export class AuthenticationEffects {
               take(1)
             );
         },
-        onError: (action, error) => {
+        onError: (action, { error }) => {
           return AuthenticationActions.authenticationConfirmRegistrationFailure(
             { error }
           );
@@ -55,7 +49,7 @@ export class AuthenticationEffects {
             take(1)
           );
         },
-        onError: (action, error) => {
+        onError: (action, { error }) => {
           return AuthenticationActions.authenticationLoginFailure({ error });
         },
       })
@@ -88,7 +82,7 @@ export class AuthenticationEffects {
               take(1)
             );
         },
-        onError: (action, error) => {
+        onError: (action, { error }) => {
           return AuthenticationActions.authenticationRegisterFailure({ error });
         },
       })
@@ -116,32 +110,8 @@ export class AuthenticationEffects {
     );
   });
 
-  verifySession$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(appInit),
-        withLatestFrom(this.store.select(getUser)),
-        tap(([action, user]) => {
-          this.store
-            .select(selectUrl)
-            .pipe(
-              filter((v) => v !== undefined),
-              take(1)
-            )
-            .subscribe((url) => {
-              if (!isAuthenticationRoute(url)) {
-                this.authenticationService.verifySession(user);
-              }
-            });
-        })
-      );
-    },
-    { dispatch: false }
-  );
-
   constructor(
     private readonly actions$: Actions,
-    private store: Store<AuthenticationPartialState>,
     private piperopniEntertainmentService: PiperopniEntertainmentService,
     private router: Router,
     private authenticationService: AuthenticationService

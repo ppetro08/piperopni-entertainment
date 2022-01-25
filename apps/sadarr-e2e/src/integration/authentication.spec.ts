@@ -49,6 +49,25 @@ describe('authentication', () => {
         cy.get('#email input').type('test').blur();
         cy.get('#email .mat-error').contains('Invalid email');
       });
+
+      it('should show error from api', () => {
+        cy.get('#email input').type('test@test.com');
+        cy.get('#password input').type('test');
+
+        const message = 'Username or password is incorrect.';
+        cy.intercept('POST', '/api/authenticate/login', (req) => {
+          req.reply({
+            statusCode: 400,
+            body: {
+              message,
+            },
+          });
+        });
+
+        cy.get('form').submit();
+
+        cy.get('.api-error').contains(message);
+      });
     });
   });
 
@@ -100,6 +119,24 @@ describe('authentication', () => {
           'Passwords do not match'
         );
       });
+
+      it('should show error from api', () => {
+        cy.get('#email input').type('test@test.com');
+
+        const message = 'Email test@test.com is already taken.';
+        cy.intercept('POST', '/api/authenticate/register', (req) => {
+          req.reply({
+            statusCode: 400,
+            body: {
+              message,
+            },
+          });
+        });
+
+        cy.get('form').submit();
+
+        cy.get('.api-error').contains(message);
+      });
     });
   });
 
@@ -111,13 +148,13 @@ describe('authentication', () => {
 
     beforeEach(() => {
       cy.visit('/authentication/confirm-registration?userId=1&token=testToken');
-
-      cy.intercept('POST', '/api/authenticate/confirmregistration', {
-        message: 'Confirmed user registration',
-      }).as('confirmRequest');
     });
 
     it('should send confirm registration request with data from url', () => {
+      cy.intercept('POST', '/api/authenticate/confirmregistration', {
+        message: 'Confirmed user registration',
+      }).as('confirmRequest');
+
       cy.get('button').click();
       cy.wait('@confirmRequest').then((interception) => {
         expect(interception.request.body).to.eql(confirmRegistration);
@@ -125,8 +162,28 @@ describe('authentication', () => {
     });
 
     it('should display registration complete view', () => {
+      cy.intercept('POST', '/api/authenticate/confirmregistration', {
+        message: 'Confirmed user registration',
+      }).as('confirmRequest');
+
       cy.get('button').click();
       cy.get('h1').contains('Registration Complete');
+    });
+
+    it('should show error from api', () => {
+      cy.get('button').click();
+
+      const message = 'Email registration token no longer valid.';
+      cy.intercept('POST', '/api/authenticate/confirmregistration', (req) => {
+        req.reply({
+          statusCode: 400,
+          body: {
+            message,
+          },
+        });
+      });
+
+      cy.get('.api-error').contains(message);
     });
   });
 });

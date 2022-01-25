@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -7,9 +13,17 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
+import { Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
+import { ErrorModel } from '../../shared/models/error.model';
 import { RegisterModel } from '../models/register.model';
-import { authenticationRegister } from '../state/authentication.actions';
+import {
+  authenticationRegister,
+  authenticationRegisterSuccess,
+} from '../state/authentication.actions';
+import { getAuthenticationError } from '../state/authentication.selectors';
 
 const checkPasswords: ValidatorFn = (
   group: AbstractControl
@@ -25,14 +39,24 @@ const checkPasswords: ValidatorFn = (
   styleUrls: ['./register.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit, OnDestroy {
   emailHasBeenSent = false;
+
+  error: ErrorModel | null = null;
 
   form: FormGroup;
 
   headerText = 'Register';
 
-  constructor(private formBuilder: FormBuilder, private store: Store) {
+  private destroyed$ = new Subject<void>();
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private store: Store,
+    private actions$: Actions,
+
+    private changeDetectorRef: ChangeDetectorRef
+  ) {
     this.form = this.formBuilder.group({
       email: this.formBuilder.control(null, [
         Validators.email,
@@ -48,10 +72,29 @@ export class RegisterComponent {
     });
   }
 
+  ngOnInit(): void {
+    this.actions$
+      .pipe(ofType(authenticationRegisterSuccess), take(1))
+      .subscribe(() => {
+        this.emailSent();
+        this.changeDetectorRef.markForCheck();
+      });
+    this.store
+      .select(getAuthenticationError)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((error) => {
+        this.error = error;
+        this.changeDetectorRef.markForCheck();
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed$.next();
+  }
+
   register(form: FormGroup): void {
     const register: RegisterModel = form.value;
     this.store.dispatch(authenticationRegister({ register }));
-    this.emailSent();
   }
 
   private emailSent(): void {
