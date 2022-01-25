@@ -15,15 +15,17 @@ import { AppComponent } from './app.component';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { AuthenticationEffects } from './authentication/state/authentication.effects';
 import * as AuthenticationReducer from './authentication/state/authentication.reducer';
+import { HomeModule } from './home/home.module';
 import { routerStateKey } from './router/router.reducer';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    AuthenticationModule,
-    BrowserModule,
-    BrowserAnimationsModule,
     AppRoutingModule,
+    AuthenticationModule,
+    BrowserAnimationsModule,
+    BrowserModule,
+    HomeModule,
     HttpClientModule,
     MatButtonModule,
     StoreModule.forRoot(

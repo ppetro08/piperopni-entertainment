@@ -18,6 +18,11 @@ const routes: Routes = [
     canActivate: [AuthenticationGuard],
   },
   {
+    path: 'home',
+    loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
+    canActivate: [AuthenticationGuard],
+  },
+  {
     path: authenticationPath,
     loadChildren: () =>
       import('./authentication/authentication.module').then(
@@ -26,9 +31,8 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '',
+    redirectTo: 'home',
     pathMatch: 'full',
-    canActivate: [AuthenticationGuard],
   },
 ];
 
