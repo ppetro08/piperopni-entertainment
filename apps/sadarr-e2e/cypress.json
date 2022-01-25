@@ -5,5 +5,8 @@
   "modifyObstructiveCode": false,
   "supportFile": "./src/support/index.ts",
   "pluginsFile": false,
+  "video": true,
+  "videosFolder": "../../dist/cypress/apps/sadarr-e2e/videos",
+  "screenshotsFolder": "../../dist/cypress/apps/sadarr-e2e/screenshots",
   "chromeWebSecurity": false
 }
