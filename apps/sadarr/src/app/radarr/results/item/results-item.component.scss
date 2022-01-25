@@ -1,6 +1,8 @@
 @import '../../../../styles/themes';
 @import '../../../../styles/variables';
 
+// TODO:P - Move this code to a shared styles file so duplicate code in sonarr could be used in both places
+
 :host {
   display: flex;
   flex-direction: column;
@@ -44,6 +46,7 @@
     flex: 0 0 auto;
     img {
       height: 250px;
+      width: 170px;
     }
   }
 

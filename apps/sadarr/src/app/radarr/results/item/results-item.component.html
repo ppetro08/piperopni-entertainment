@@ -38,7 +38,7 @@
     </div>
   </div>
   <div class="results-item-body">
-    <div class="thumbnail-container">
+    <div class="thumbnail-container" *ngIf="item.remotePoster">
       <img [src]="item.remotePoster" />
     </div>
     <div class="result-detail" [ngClass]="{ 'no-margin': !item.remotePoster }">
