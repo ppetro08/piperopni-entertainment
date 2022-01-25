@@ -9,6 +9,7 @@
     "test": "nx test",
     "storybook": "nx run sadarr:storybook",
     "cypress": "nx run sadarr-e2e:e2e",
+    "cypress:watch": "nx run sadarr-e2e:e2e --watch",
     "start-server": "nx run api:serve"
   },
   "private": true,
