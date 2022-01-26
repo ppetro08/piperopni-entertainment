@@ -9,7 +9,7 @@ import { SeriesApi } from './model/series-api';
 // TODO:P - Find out what takes so long when getting alot of results 'blacklis'
 @Injectable()
 export class SonarrApiService implements OnDestroy {
-  private apiUrl = 'http://piperopni.ddns.net:38082/api/v3';
+  private apiUrl = 'sonarr/api';
 
   private headers = new HttpHeaders({
     Accept: 'application/json',
@@ -32,7 +32,7 @@ export class SonarrApiService implements OnDestroy {
   }
 
   loadProfiles(): Observable<Profile[]> {
-    return this.http.get<Profile[]>(`${this.apiUrl}/profile`, {
+    return this.http.get<Profile[]>(`${this.apiUrl}/qualityprofile`, {
       headers: this.headers,
     });
   }

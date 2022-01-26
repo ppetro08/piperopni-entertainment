@@ -1,25 +1,28 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { DataPersistence, fetch, pessimisticUpdate } from '@nrwl/angular';
+import { Store } from '@ngrx/store';
+import { fetch, pessimisticUpdate } from '@nrwl/angular';
 import { forkJoin } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { map, take, withLatestFrom } from 'rxjs/operators';
 import { AddMovieResponseApi, MovieLookupApi } from '../models/radarr-api';
 import { RadarrApiService } from '../radarr.api.service';
 import * as RadarrActions from './radarr.actions';
 import { State } from './radarr.reducer';
-import { getRadarrDefaultFolderFromRootFolders } from './radarr.selectors';
+import {
+  getRadarrDefaultFolderFromRootFolders,
+  getRadarrState,
+} from './radarr.selectors';
 
 @Injectable()
 export class RadarrEffects {
   addMovie$ = createEffect(() =>
     this.actions$.pipe(
       ofType(RadarrActions.addMovie),
+      withLatestFrom(this.store.select(getRadarrState)),
       pessimisticUpdate({
         run: (action, state: State) => {
           if (!state.searchResults) {
-            throw Error(
-              'TODO Figure out how to properly go into the on error block'
-            );
+            throw Error('Cannot add movie without searching first.');
           }
           const movieToAdd = state.searchResults.find(
             (sr) =>
@@ -28,20 +31,17 @@ export class RadarrEffects {
           );
 
           if (!movieToAdd) {
-            throw Error(
-              'TODO Figure out how to properly go into the on error block'
-            );
+            throw Error('Cannot find movie in search results.');
           }
 
           const rootFolderPath: string | null =
             getRadarrDefaultFolderFromRootFolders(state.rootFolders);
 
           if (!rootFolderPath) {
-            throw Error(
-              'TODO Figure out how to properly go into the on error block'
-            );
+            throw Error('Root folder unknown.');
           }
 
+          // TODO:P - This is not adding the movie monitored
           return this.radarrApiService
             .addMovie({
               ...movieToAdd,
@@ -50,6 +50,7 @@ export class RadarrEffects {
             })
             .pipe(
               map((addMovieResponseApi: AddMovieResponseApi) => {
+                // TODO:P - show toast that says the movie was successfully added, same thing for tv shows
                 return RadarrActions.addMovieSuccess({
                   addMovieResponse: addMovieResponseApi,
                 });
@@ -59,6 +60,7 @@ export class RadarrEffects {
         onError: (action, error) => {
           console.error('Error', error);
           return RadarrActions.addMovieFailure({ error });
+          // TODO error handling in front end, maybe a toast?
         },
       })
     )
@@ -125,7 +127,6 @@ export class RadarrEffects {
               // TOOD:P - Sort by most recent or rating or something, add in full fledge sorting?
               return RadarrActions.searchSuccess({ movies: movies });
             }),
-
             take(1)
           );
         },
@@ -140,6 +141,6 @@ export class RadarrEffects {
   constructor(
     private readonly actions$: Actions,
     private radarrApiService: RadarrApiService,
-    private dataPersistence: DataPersistence<State>
+    private store: Store<State>
   ) {}
 }

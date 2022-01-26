@@ -1,7 +1,22 @@
 {
   "/api": {
     "target": "http://localhost:5232",
-    "secure": false,
+    "logLevel": "debug"
+  },
+  "/radarr/api": {
+    "target": "http://piperopni.ddns.net:38084/api/v3",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/radarr/api": ""
+    },
+    "logLevel": "debug"
+  },
+  "/sonarr/api": {
+    "target": "http://piperopni.ddns.net:38082/api/v3",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/sonarr/api": ""
+    },
     "logLevel": "debug"
   }
 }

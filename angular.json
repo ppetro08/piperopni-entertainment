@@ -9,7 +9,9 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
-          "outputs": ["{options.outputPath}"],
+          "outputs": [
+            "{options.outputPath}"
+          ],
           "options": {
             "outputPath": "dist/apps/sadarr",
             "index": "apps/sadarr/src/index.html",
@@ -17,8 +19,13 @@
             "polyfills": "apps/sadarr/src/polyfills.ts",
             "tsConfig": "apps/sadarr/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": ["apps/sadarr/src/favicon.ico", "apps/sadarr/src/assets"],
-            "styles": ["apps/sadarr/src/styles.scss"],
+            "assets": [
+              "apps/sadarr/src/favicon.ico",
+              "apps/sadarr/src/assets"
+            ],
+            "styles": [
+              "apps/sadarr/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -66,6 +73,7 @@
           },
           "defaultConfiguration": "development",
           "options": {
+            "browserTarget": "sadarr:build:development",
             "proxyConfig": "apps/sadarr/proxy.conf.json"
           }
         },
@@ -86,7 +94,9 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/sadarr"],
+          "outputs": [
+            "coverage/apps/sadarr"
+          ],
           "options": {
             "jestConfig": "apps/sadarr/jest.config.js",
             "passWithNoTests": true
@@ -109,7 +119,9 @@
         },
         "build-storybook": {
           "builder": "@nrwl/storybook:build",
-          "outputs": ["{options.outputPath}"],
+          "outputs": [
+            "{options.outputPath}"
+          ],
           "options": {
             "uiFramework": "@storybook/angular",
             "outputPath": "dist/storybook/sadarr",
@@ -145,14 +157,20 @@
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
-          "outputs": ["{options.outputFile}"],
+          "outputs": [
+            "{options.outputFile}"
+          ],
           "options": {
-            "lintFilePatterns": ["apps/sadarr-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": [
+              "apps/sadarr-e2e/**/*.{js,ts}"
+            ]
           }
         }
       },
       "tags": [],
-      "implicitDependencies": ["sadarr"]
+      "implicitDependencies": [
+        "sadarr"
+      ]
     }
   }
 }
