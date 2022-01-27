@@ -13,7 +13,6 @@ export class SonarrApiService implements OnDestroy {
 
   private headers = new HttpHeaders({
     Accept: 'application/json',
-    'X-API-Key': '2ae85b65c2104fd1a85e4781d274d899',
     'X-Requested-With': 'XMLHttpRequest',
   });
 

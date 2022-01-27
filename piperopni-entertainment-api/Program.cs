@@ -2,12 +2,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using piperopni_entertainment_api.Data;
-using piperopni_entertainment_api.Database;
 using piperopni_entertainment_api.ErrorHandling;
 using piperopni_entertainment_api.Middleware;
 using piperopni_entertainment_api.Models.Configuration;
 using piperopni_entertainment_api.Providers;
 using piperopni_entertainment_api.Services;
+using piperopni_entertainment_api.Services.Abstractions;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -59,7 +59,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 
 builder.Services.AddDbContext<UserDbContext>();
 builder.Services.AddDbContext<EmailConfirmationDbContext>();
+builder.Services.AddDbContext<TokenDbContext>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddTransient<IEmailService, EmailService>();
 builder.Services.AddHttpContextAccessor();
 
@@ -80,6 +82,7 @@ app.UseAuthentication();
 
 app.UseMiddleware<JwtMiddleware>();
 app.UseMiddleware<ErrorHandlerMiddleware>();
+app.UseMiddleware<ReverseProxyMiddleware>();
 app.UseHttpsRedirection();
 app.MapControllers();
 

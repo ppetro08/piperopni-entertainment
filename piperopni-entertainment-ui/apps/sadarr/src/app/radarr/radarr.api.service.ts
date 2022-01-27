@@ -12,7 +12,6 @@ export class RadarrApiService implements OnDestroy {
 
   private headers = new HttpHeaders({
     Accept: 'application/json',
-    'X-API-Key': '4020ff99a9774d62b03e519964cf8497',
     'X-Requested-With': 'XMLHttpRequest',
   });
 
