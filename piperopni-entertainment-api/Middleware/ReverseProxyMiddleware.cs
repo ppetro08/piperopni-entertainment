@@ -93,7 +93,6 @@
             {
                 // TODO - Move these keys to configuration
                 // TODO - Could hit db for this info if decided
-                // TODO - Find out why this doesn't work with the url being localhost
                 request.Headers.Add("X-API-Key", "4020ff99a9774d62b03e519964cf8497");
                 targetUri = new Uri("http://piperopni.ddns.net:38084/api/v3" + remainingPath);
             }
