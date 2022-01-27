@@ -8,7 +8,7 @@ import { AddMovieResponseApi, MovieLookupApi } from './models/radarr-api';
 
 @Injectable()
 export class RadarrApiService implements OnDestroy {
-  private apiUrl = 'radarr/api';
+  private apiUrl = 'api/radarr';
 
   private headers = new HttpHeaders({
     Accept: 'application/json',
