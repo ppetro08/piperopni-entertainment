@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using piperopni_entertainment_api.Models;
+using piperopni_entertainment_api.Models.Configuration;
 
 namespace piperopni_entertainment_api.Database
 {
@@ -16,8 +17,8 @@ namespace piperopni_entertainment_api.Database
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var connectionString = _configuration.GetConnectionString("DefaultConnection");
-            optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+            var connectionStringSettings = _configuration.GetSection("ConnectionStrings").Get<ConnectionStringSettingsModel>();
+            optionsBuilder.UseMySql(connectionStringSettings.DefaultConnection, ServerVersion.AutoDetect(connectionStringSettings.DefaultConnection));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

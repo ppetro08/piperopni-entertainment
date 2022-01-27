@@ -5,6 +5,7 @@ using piperopni_entertainment_api.Data;
 using piperopni_entertainment_api.Database;
 using piperopni_entertainment_api.ErrorHandling;
 using piperopni_entertainment_api.Middleware;
+using piperopni_entertainment_api.Models.Configuration;
 using piperopni_entertainment_api.Providers;
 using piperopni_entertainment_api.Services;
 using System.Text;
@@ -39,20 +40,19 @@ builder.Services.AddSwaggerGen(options =>
 });
 builder.Services.AddAutoMapper(typeof(Program));
 
-var issuer = builder.Configuration["Jwt:Issuer"];
-var secretKey = builder.Configuration["Jwt:Key"];
-var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey));
+var jwtSettings = builder.Configuration.GetSection("Jwt").Get<JwtSettingsModel>();
+var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.Key));
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
-    options.Audience = issuer;
+    options.Audience = jwtSettings.Issuer;
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = issuer,
-        ValidAudience = issuer,
+        ValidIssuer = jwtSettings.Issuer,
+        ValidAudience = jwtSettings.Issuer,
         IssuerSigningKey = signingKey
     };
 });

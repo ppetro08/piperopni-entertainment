@@ -10,6 +10,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Security.Claims;
+using piperopni_entertainment_api.Models.Configuration;
 
 namespace piperopni_entertainment_api.Providers
 {
@@ -145,12 +146,13 @@ namespace piperopni_entertainment_api.Providers
         {
             // generate token that is valid for 7 days
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_configuration.GetSection("Jwt:Key").Value);
+            var jwtSettings = _configuration.GetSection("Jwt").Get<JwtSettingsModel>();
+            var key = Encoding.ASCII.GetBytes(jwtSettings.Key);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Audience = _configuration["Jwt:Issuer"],
+                Audience = jwtSettings.Issuer,
                 Expires = DateTime.UtcNow.AddDays(7),
-                Issuer = _configuration["Jwt:Issuer"],
+                Issuer = jwtSettings.Issuer,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
                 Subject = new ClaimsIdentity(new[] { new Claim("id", user.UserId.ToString()) }),
             };

@@ -1,4 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using piperopni_entertainment_api.Models.Configuration;
 using piperopni_entertainment_api.Providers;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
@@ -30,6 +31,7 @@ namespace piperopni_entertainment_api.Middleware
         {
             try
             {
+                var jwtSettings = _configuration.GetSection("Jwt").Get<JwtSettingsModel>();
                 var tokenHandler = new JwtSecurityTokenHandler();
                 tokenHandler.ValidateToken(token, new TokenValidationParameters
                 {
@@ -37,9 +39,9 @@ namespace piperopni_entertainment_api.Middleware
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = _configuration["Jwt:Issuer"],
-                    ValidAudience = _configuration["Jwt:Issuer"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]))
+                    ValidIssuer = jwtSettings.Issuer,
+                    ValidAudience = jwtSettings.Issuer,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key))
                 }, out SecurityToken validatedToken);
 
                 var jwtToken = (JwtSecurityToken)validatedToken;

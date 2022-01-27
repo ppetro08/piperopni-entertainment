@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using piperopni_entertainment_api.Models.Authenticate;
+using piperopni_entertainment_api.Models.Configuration;
+using System.Data.Common;
 
 namespace piperopni_entertainment_api.Data
 {
@@ -17,8 +19,8 @@ namespace piperopni_entertainment_api.Data
         // TODO:P - Better way to do this so it's not repeated in every context file
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var connectionString = _configuration.GetConnectionString("DefaultConnection");
-            optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+            var connectionStringSettings = _configuration.GetSection("ConnectionStrings").Get<ConnectionStringSettingsModel>();
+            optionsBuilder.UseMySql(connectionStringSettings.DefaultConnection, ServerVersion.AutoDetect(connectionStringSettings.DefaultConnection));
         }
     }
 }
