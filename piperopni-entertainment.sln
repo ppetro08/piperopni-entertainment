@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "piperopni-entertainment", "piperopni-entertainment-api\piperopni-entertainment.csproj", "{095B2BDA-D422-48E5-8AD0-8A3D2944C66C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "piperopni-entertainment", "piperopni-entertainment\piperopni-entertainment.csproj", "{8ED2EEF8-371F-4AD7-814B-5329D258C037}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{095B2BDA-D422-48E5-8AD0-8A3D2944C66C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{095B2BDA-D422-48E5-8AD0-8A3D2944C66C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{095B2BDA-D422-48E5-8AD0-8A3D2944C66C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{095B2BDA-D422-48E5-8AD0-8A3D2944C66C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8ED2EEF8-371F-4AD7-814B-5329D258C037}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8ED2EEF8-371F-4AD7-814B-5329D258C037}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8ED2EEF8-371F-4AD7-814B-5329D258C037}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8ED2EEF8-371F-4AD7-814B-5329D258C037}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {121E39BC-6C52-4F9D-9E9F-1B7021A82CE5}
+		SolutionGuid = {E27D5514-BBD9-42D6-B0FC-3250F9CE5E62}
 	EndGlobalSection
 EndGlobal
