@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using piperopni_entertainment_api.Attributes;
-using piperopni_entertainment_api.Models;
-using piperopni_entertainment_api.Providers;
+using piperopni_entertainment_api.Services.Abstractions;
 
 namespace piperopni_entertainment_api.Controllers
 {
     [Authorize]
-    [ApiController]
     [Route("api/[controller]")]
+    [ApiController]
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;

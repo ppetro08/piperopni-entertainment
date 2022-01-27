@@ -1,6 +1,6 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using piperopni_entertainment_api.Models.Configuration;
-using piperopni_entertainment_api.Providers;
+using piperopni_entertainment_api.Services.Abstractions;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 

@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using piperopni_entertainment_api.Models.Authenticate;
 using piperopni_entertainment_api.Models.Configuration;
-using System.Data.Common;
 
 namespace piperopni_entertainment_api.Data
 {

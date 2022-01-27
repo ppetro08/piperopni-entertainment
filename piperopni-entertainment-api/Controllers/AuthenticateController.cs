@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using piperopni_entertainment_api.Authenticate;
 using piperopni_entertainment_api.Models.Authenticate;
-using piperopni_entertainment_api.Providers;
+using piperopni_entertainment_api.Services.Abstractions;
 
 namespace piperopni_entertainment_api.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
+    [ApiController]
     public class AuthenticateController : ControllerBase
     {
         private readonly IUserService _userService;

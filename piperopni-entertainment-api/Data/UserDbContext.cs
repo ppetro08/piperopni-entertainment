@@ -2,7 +2,7 @@
 using piperopni_entertainment_api.Models;
 using piperopni_entertainment_api.Models.Configuration;
 
-namespace piperopni_entertainment_api.Database
+namespace piperopni_entertainment_api.Data
 {
     public class UserDbContext : DbContext
     {
