@@ -1,30 +1,18 @@
 ﻿using AutoMapper;
-using piperopni_entertainment_api.Database;
-using piperopni_entertainment_api.Models;
-using WebApi.Helpers;
-using piperopni_entertainment_api.Models.Authenticate;
-using piperopni_entertainment_api.Authenticate;
-using piperopni_entertainment_api.Services;
-using piperopni_entertainment_api.Data;
-using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using System.Security.Claims;
+using piperopni_entertainment_api.Authenticate;
+using piperopni_entertainment_api.Data;
+using piperopni_entertainment_api.Models;
+using piperopni_entertainment_api.Models.Authenticate;
 using piperopni_entertainment_api.Models.Configuration;
+using piperopni_entertainment_api.Services.Abstractions;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using WebApi.Helpers;
 
 namespace piperopni_entertainment_api.Providers
 {
-    public interface IUserService
-    {
-        public IEnumerable<UserModel> GetAll();
-        public UserModel GetUserById(int id);
-        public UserModel? GetUserByEmail(string email);
-        public UserModel? GetConfirmedUserByEmail(string email);
-        public void Register(RegisterModel registerModel);
-        public void ConfirmRegistration(ConfirmRegistrationModel confirmRegistrationModel);
-        public AuthenticateResponseModel AuthenticateUser(AuthenticateModel loginModel);
-    }
-
     public class UserService : IUserService
     {
         private readonly UserDbContext _userDbContext;

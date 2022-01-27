@@ -1,14 +1,9 @@
-﻿using SendGrid;
+﻿using piperopni_entertainment_api.Services.Abstractions;
+using SendGrid;
 using SendGrid.Helpers.Mail;
 
 namespace piperopni_entertainment_api.Services
 {
-    public interface IEmailService
-    {
-        public Task SendEmailAsync(string email, string subject, string message);
-        public Task Execute(string apiKey, string subject, string message, string email);
-    }
-
     public class EmailService: IEmailService
     {
         private readonly IConfiguration _configuration;
