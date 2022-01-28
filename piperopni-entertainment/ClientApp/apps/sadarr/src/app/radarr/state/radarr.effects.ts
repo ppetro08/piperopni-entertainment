@@ -77,6 +77,7 @@ export class RadarrEffects {
           this.snackBar.open('Added movie successfully.', undefined, {
             duration: 3000,
             panelClass: 'snackbar-success',
+            horizontalPosition: 'center',
             verticalPosition: 'top',
           });
         })
@@ -93,6 +94,7 @@ export class RadarrEffects {
           this.snackBar.open('Failed to add movie.', undefined, {
             duration: 3000,
             panelClass: 'snackbar-failure',
+            horizontalPosition: 'center',
             verticalPosition: 'top',
           });
         })

@@ -13,6 +13,7 @@ declare namespace Cypress {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface Chainable<Subject> {
     login(email: string, password: string): void;
+    authenticate(): void;
   }
 }
 //
@@ -20,6 +21,21 @@ declare namespace Cypress {
 Cypress.Commands.add('login', (email, password) => {
   console.log('Custom command example: Login', email, password);
 });
+
+Cypress.Commands.add('authenticate', () => {
+  const authenticationResponseModel = {
+    email: 'test@test.com',
+    firstName: 'test',
+    lastName: 'test',
+    userId: 1,
+    token: 'testToken',
+  };
+  localStorage.setItem(
+    'currentUser',
+    JSON.stringify(authenticationResponseModel)
+  );
+});
+
 //
 // -- This is a child command --
 // Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })

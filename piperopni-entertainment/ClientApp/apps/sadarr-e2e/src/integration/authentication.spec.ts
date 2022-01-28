@@ -1,11 +1,6 @@
 import { AuthenticationResponseModel } from 'apps/sadarr/src/app/api/models/user.model';
 import { ConfirmRegistration } from 'apps/sadarr/src/app/authentication/models/confirm-registration.model';
 
-//     cy.window().its('store').invoke('dispatch', {
-//       type: '[Authentication/API] Login Success',
-//       authenticationResponse,
-//     });
-
 describe('authentication', () => {
   describe('login', () => {
     beforeEach(() => cy.visit('/authentication/login'));
