@@ -1,4 +1,3 @@
-<!-- TODO:P - Long titles look bad when on small screens -->
 <form *ngIf="item" [formGroup]="formGroup" (ngSubmit)="onSubmit(item)">
   <div class="results-item-header">
     <div class="result-detail-title">
@@ -34,6 +33,9 @@
         [lozengeSize]="'small'"
       >
         Downloaded
+      </pip-lozenge>
+      <pip-lozenge *ngIf="item.profileId" [lozengeSize]="'small'">
+        {{ item.profileId | pipQuality | async }}
       </pip-lozenge>
     </div>
   </div>

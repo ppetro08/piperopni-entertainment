@@ -8,8 +8,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { LozengeModule } from '../../shared/lozenge/lozenge.module';
-import { TimePipeModule } from '../../shared/pipes/time/time.module';
+import { TimeModule } from '../../shared/pipes/time/time.module';
 import { ProfileSelectModule } from '../../shared/profile-select/profile-select.module';
+import { QualityModule } from '../pipes/quality.module';
 import { ResultsContainerComponent } from './container/results-container.component';
 import { ResultsItemComponent } from './item/results-item.component';
 
@@ -25,7 +26,8 @@ import { ResultsItemComponent } from './item/results-item.component';
     ProfileSelectModule,
     ReactiveFormsModule,
     ScrollingModule,
-    TimePipeModule,
+    TimeModule,
+    QualityModule,
   ],
   exports: [ResultsContainerComponent, ResultsItemComponent],
   declarations: [ResultsContainerComponent, ResultsItemComponent],

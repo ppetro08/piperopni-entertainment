@@ -41,10 +41,13 @@ export class RadarrEffects {
             throw Error('Root folder unknown.');
           }
 
-          // TODO:P - This is not adding the movie monitored
           return this.radarrApiService
             .addMovie({
               ...movieToAdd,
+              addOptions: {
+                searchForMovie: true,
+              },
+              monitored: true,
               qualityProfileId: action.addMovie.profileId,
               rootFolderPath,
             })

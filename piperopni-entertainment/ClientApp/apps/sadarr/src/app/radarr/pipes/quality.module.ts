@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { TimePipe } from './time.pipe';
+import { QualityPipe } from './quality.pipe';
 
 @NgModule({
   imports: [CommonModule],
-  declarations: [TimePipe],
-  exports: [TimePipe],
+  declarations: [QualityPipe],
+  exports: [QualityPipe],
 })
-export class TimeModule {}
+export class QualityModule {}
