@@ -36,7 +36,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RadarrComponent implements OnDestroy {
-  @ViewChild(ResultsContainerComponent) // TODO - Create interface instead of using component directly
+  @ViewChild(ResultsContainerComponent)
   resultsContainerComponent: ResultsContainerComponent | null = null;
 
   data$: Observable<Movie[]>;
