@@ -1,4 +1,5 @@
-﻿using piperopni_entertainment_api.Services.Abstractions;
+﻿using piperopni_entertainment_api.Models.Configuration;
+using piperopni_entertainment_api.Services.Abstractions;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 
@@ -15,7 +16,8 @@ namespace piperopni_entertainment_api.Services
 
         public Task SendEmailAsync(string email, string subject, string message)
         {
-            return Execute(_configuration["SendGrid:ApiKey"], subject, message, email);
+            var sendGridSettings = _configuration.GetSection("SendGrid").Get<SendGridSettingsModel>();
+            return Execute(sendGridSettings.ApiKey, subject, message, email);
         }
 
         public Task Execute(string apiKey, string subject, string message, string email)
