@@ -86,7 +86,6 @@ function convertStatusStringToReadable(status: MovieStatusApi): string {
   return capitalizeFirstLetter(status);
 }
 
-// TODO - Find a good place to keep this method
 export function convertRadarrApiToRadarr(radarrApi: MovieLookupApi): Movie {
   return {
     id: radarrApi.id,

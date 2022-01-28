@@ -26,11 +26,6 @@ namespace piperopni_entertainment_api.Controllers
         public IActionResult Login([FromBody] AuthenticateModel data)
         {
             var user = _userService.AuthenticateUser(data);
-            if (user == null)
-            {
-                // TODO:P - Check if this gets hit or nah
-                return Unauthorized();
-            }
 
             return Ok(user);
         }
