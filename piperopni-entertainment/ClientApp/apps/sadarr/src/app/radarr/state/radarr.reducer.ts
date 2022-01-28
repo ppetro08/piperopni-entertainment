@@ -84,25 +84,31 @@ const radarrReducer = createReducer(
     searchResults: [],
   })),
 
+  // add
   on(RadarrActions.addMovie, (state) => ({
     ...state,
     searchLoading: true,
   })),
-  on(RadarrActions.getAddedMovieSuccess, (state, action) => ({
-    ...radarrAdapter.addOne(action.addedMovie, state),
-    searchLoading: false,
-    searchText: '',
-    searchResults: [],
-  })),
-  on(
-    RadarrActions.addMovieFailure,
-    RadarrActions.getAddedMovieFailure,
-    (state, { error }) => ({
-      ...state,
+  on(RadarrActions.addMovieSuccess, (state, action) => {
+    const searchResults = [...state.searchResults];
+    let index = state.searchResults.findIndex(
+      (sr) => sr.tmdbId === action.addedMovie.tmdbId
+    );
+    if (index > 0) {
+      searchResults[index] = action.addedMovie;
+    }
+
+    return {
+      ...radarrAdapter.addOne(action.addedMovie, state),
       searchLoading: false,
-      error,
-    })
-  )
+      searchResults,
+    };
+  }),
+  on(RadarrActions.addMovieFailure, (state, { error }) => ({
+    ...state,
+    searchLoading: false,
+    error,
+  }))
 );
 
 export function reducer(state: State | undefined, action: Action) {

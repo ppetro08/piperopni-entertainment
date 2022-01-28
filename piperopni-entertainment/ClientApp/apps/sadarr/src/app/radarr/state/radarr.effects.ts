@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { fetch, pessimisticUpdate } from '@nrwl/angular';
 import { forkJoin } from 'rxjs';
-import { map, take, withLatestFrom } from 'rxjs/operators';
-import { AddMovieResponseApi, MovieLookupApi } from '../models/radarr-api';
+import { map, take, tap, withLatestFrom } from 'rxjs/operators';
+import { AddMovieResponseApi } from '../models/radarr-api';
 import { RadarrApiService } from '../radarr.api.service';
 import * as RadarrActions from './radarr.actions';
 import { State } from './radarr.reducer';
@@ -53,50 +54,58 @@ export class RadarrEffects {
             })
             .pipe(
               map((addMovieResponseApi: AddMovieResponseApi) => {
-                // TODO:P - show toast that says the movie was successfully added, same thing for tv shows
                 return RadarrActions.addMovieSuccess({
-                  addMovieResponse: addMovieResponseApi,
+                  addedMovie: { ...movieToAdd, ...addMovieResponseApi },
                 });
               })
             );
         },
-        onError: (action, error) => {
+        onError: (_action, error) => {
           console.error('Error', error);
           return RadarrActions.addMovieFailure({ error });
-          // TODO error handling in front end, maybe a toast?
         },
       })
     )
   );
 
-  addMovieSuccess$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(RadarrActions.addMovieSuccess),
-      fetch({
-        run: (action) => {
-          // TODO - Don't need to go get the movie again,
-          //        can merge the post response to the lookup model in the store
-          return this.radarrApiService
-            .getMovie(action.addMovieResponse.id)
-            .pipe(
-              map((addedMovie: MovieLookupApi) => {
-                return RadarrActions.getAddedMovieSuccess({ addedMovie });
-              })
-            );
-        },
-        onError: (action, error) => {
-          console.error('Error', error);
-          return RadarrActions.getAddedMovieFailure({ error });
-        },
-      })
-    )
+  addMovieSuccess$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(RadarrActions.addMovieSuccess),
+        tap(() => {
+          // Todo - Possibly add button to go to added movie detail page in snackbar
+          this.snackBar.open('Added movie successfully.', undefined, {
+            duration: 3000,
+            panelClass: 'snackbar-success',
+            verticalPosition: 'top',
+          });
+        })
+      );
+    },
+    { dispatch: false }
+  );
+
+  addMovieFailure$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(RadarrActions.addMovieFailure),
+        tap(() => {
+          this.snackBar.open('Failed to add movie.', undefined, {
+            duration: 3000,
+            panelClass: 'snackbar-failure',
+            verticalPosition: 'top',
+          });
+        })
+      );
+    },
+    { dispatch: false }
   );
 
   init$ = createEffect(() =>
     this.actions$.pipe(
       ofType(RadarrActions.radarrInit),
       fetch({
-        run: (action) => {
+        run: () => {
           return forkJoin([
             this.radarrApiService.loadAllMovies(),
             this.radarrApiService.loadProfiles(),
@@ -144,6 +153,7 @@ export class RadarrEffects {
   constructor(
     private readonly actions$: Actions,
     private radarrApiService: RadarrApiService,
-    private store: Store<State>
+    private store: Store<State>,
+    private snackBar: MatSnackBar
   ) {}
 }
