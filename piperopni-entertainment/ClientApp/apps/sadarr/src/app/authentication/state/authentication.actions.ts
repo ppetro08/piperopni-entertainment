@@ -28,6 +28,8 @@ export const authenticationLoginFailure = createAction(
   props<{ error: ErrorModel }>()
 );
 
+export const authenticationLogout = createAction('[Authentication] Logout');
+
 export const authenticationRegister = createAction(
   '[Authentication] Register',
   props<{ register: RegisterModel }>()

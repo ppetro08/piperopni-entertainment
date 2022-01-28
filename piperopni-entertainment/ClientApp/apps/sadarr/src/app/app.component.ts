@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { appInit } from './app.actions';
+import { authenticationLogout } from './authentication/state/authentication.actions';
 import { getUser } from './authentication/state/authentication.selectors';
 import { isAuthenticationRoute } from './shared/utils/string';
 
@@ -37,5 +38,9 @@ export class AppComponent {
         return !!user && !isAuthenticationRoute((route as NavigationEnd).url);
       })
     );
+  }
+
+  logout(): void {
+    this.store.dispatch(authenticationLogout());
   }
 }

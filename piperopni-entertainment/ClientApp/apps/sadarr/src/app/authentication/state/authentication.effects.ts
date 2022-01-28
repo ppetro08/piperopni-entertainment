@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 import { fetch } from '@nrwl/angular';
-import { map, take, tap } from 'rxjs/operators';
+import { map, take, tap, withLatestFrom } from 'rxjs/operators';
 import { PiperopniEntertainmentService } from '../../api/piperopni-entertainment.api.service';
+import { selectQueryParams } from '../../router/router.reducer';
 import { AuthenticationService } from '../authentication.service';
 import * as AuthenticationActions from './authentication.actions';
 
@@ -60,11 +62,29 @@ export class AuthenticationEffects {
     () =>
       this.actions$.pipe(
         ofType(AuthenticationActions.authenticationLoginSuccess),
-        tap(({ authenticationResponse }) => {
+        withLatestFrom(this.store.select(selectQueryParams)),
+        tap(([{ authenticationResponse }, queryParams]) => {
           this.authenticationService.setCurrentUser(authenticationResponse);
-          this.router.navigate(['/']);
+          if (queryParams.redirectUrl) {
+            this.router.navigateByUrl(queryParams.redirectUrl);
+          } else {
+            this.router.navigate(['/']);
+          }
         })
       ),
+    { dispatch: false }
+  );
+
+  logout$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(AuthenticationActions.authenticationLogout),
+        tap(() => {
+          this.authenticationService.resetLocalStorageAndCookies();
+          this.router.navigate(['/authentication/login']);
+        })
+      );
+    },
     { dispatch: false }
   );
 
@@ -114,6 +134,7 @@ export class AuthenticationEffects {
     private readonly actions$: Actions,
     private piperopniEntertainmentService: PiperopniEntertainmentService,
     private router: Router,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private store: Store
   ) {}
 }
