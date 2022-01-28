@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -10,11 +10,6 @@ import { AddMovieResponseApi, MovieLookupApi } from './models/radarr-api';
 export class RadarrApiService implements OnDestroy {
   private apiUrl = 'api/radarr';
 
-  private headers = new HttpHeaders({
-    Accept: 'application/json',
-    'X-Requested-With': 'XMLHttpRequest',
-  });
-
   private destroyed$ = new Subject<void>();
 
   constructor(private http: HttpClient) {}
@@ -24,41 +19,28 @@ export class RadarrApiService implements OnDestroy {
   }
 
   addMovie(movie: MovieLookupApi): Observable<AddMovieResponseApi> {
-    // TODO - Do I need to jsonify movie?
-    return this.http.post<AddMovieResponseApi>(`${this.apiUrl}/movie`, movie, {
-      headers: this.headers,
-    });
+    return this.http.post<AddMovieResponseApi>(`${this.apiUrl}/movie`, movie);
   }
 
   getMovie(id: number): Observable<MovieLookupApi> {
-    return this.http.get<MovieLookupApi>(`${this.apiUrl}/movie/${id}`, {
-      headers: this.headers,
-    });
+    return this.http.get<MovieLookupApi>(`${this.apiUrl}/movie/${id}`);
   }
 
   loadAllMovies(): Observable<MovieLookupApi[]> {
-    return this.http.get<MovieLookupApi[]>(`${this.apiUrl}/movie`, {
-      headers: this.headers,
-    });
+    return this.http.get<MovieLookupApi[]>(`${this.apiUrl}/movie`);
   }
 
   loadProfiles(): Observable<Profile[]> {
-    return this.http.get<Profile[]>(`${this.apiUrl}/qualityprofile`, {
-      headers: this.headers,
-    });
+    return this.http.get<Profile[]>(`${this.apiUrl}/qualityprofile`);
   }
 
   loadRootFolder(): Observable<RootFolderApi[]> {
-    return this.http.get<RootFolderApi[]>(`${this.apiUrl}/rootFolder`, {
-      headers: this.headers,
-    });
+    return this.http.get<RootFolderApi[]>(`${this.apiUrl}/rootFolder`);
   }
 
   search(searchText: string): Observable<MovieLookupApi[]> {
     return this.http
-      .get<MovieLookupApi[]>(`${this.apiUrl}/movie/lookup?term=${searchText}`, {
-        headers: this.headers,
-      })
+      .get<MovieLookupApi[]>(`${this.apiUrl}/movie/lookup?term=${searchText}`)
       .pipe(
         map((results) => {
           if (results.length > 20) {

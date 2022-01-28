@@ -1,5 +1,6 @@
 export interface MovieLookupApi {
   added: Date;
+  addOptions: AddMovieOptions;
   alternateTitles: AlternateTitleApi;
   certification: string;
   cleanTitle: string;
@@ -36,6 +37,10 @@ export interface MovieLookupApi {
   website: string;
   year: number;
   youtubeTrailerId: string;
+}
+
+export interface AddMovieOptions {
+  searchForMovie: boolean;
 }
 
 export interface AddMovieResponseApi {

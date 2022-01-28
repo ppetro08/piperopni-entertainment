@@ -55,6 +55,11 @@
 
             foreach (var header in context.Request.Headers)
             {
+                requestMessage.Content?.Headers.TryAddWithoutValidation(header.Key, header.Value.ToArray());
+            }
+
+            foreach (var header in context.Request.Headers)
+            {
                 requestMessage.Headers.TryAddWithoutValidation(header.Key, header.Value.ToArray());
             }
         }
@@ -70,6 +75,7 @@
             {
                 context.Response.Headers[header.Key] = header.Value.ToArray();
             }
+
             context.Response.Headers.Remove("transfer-encoding");
         }
 
@@ -94,12 +100,12 @@
                 // TODO - Move these keys to configuration
                 // TODO - Could hit db for this info if decided
                 request.Headers.Add("X-API-Key", "4020ff99a9774d62b03e519964cf8497");
-                targetUri = new Uri("http://piperopni.ddns.net:38084/api/v3" + remainingPath);
+                targetUri = new Uri("http://piperopni.ddns.net:38084/api/v3" + remainingPath + request.QueryString);
             }
             else if (request.Path.StartsWithSegments("/api/sonarr", out remainingPath))
             {
                 request.Headers.Add("X-Api-Key", "2ae85b65c2104fd1a85e4781d274d899");
-                targetUri = new Uri("http://localhost:38082/api/v3" + remainingPath);
+                targetUri = new Uri("http://localhost:38082/api/v3" + remainingPath + request.QueryString);
             }
 
             return targetUri;

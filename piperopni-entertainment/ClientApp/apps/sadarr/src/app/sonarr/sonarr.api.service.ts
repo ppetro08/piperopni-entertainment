@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -11,11 +11,6 @@ import { SeriesApi } from './model/series-api';
 export class SonarrApiService implements OnDestroy {
   private apiUrl = 'api/sonarr';
 
-  private headers = new HttpHeaders({
-    Accept: 'application/json',
-    'X-Requested-With': 'XMLHttpRequest',
-  });
-
   private destroyed$ = new Subject<void>();
 
   constructor(private http: HttpClient) {}
@@ -25,28 +20,20 @@ export class SonarrApiService implements OnDestroy {
   }
 
   loadAllSeries(): Observable<SeriesApi[]> {
-    return this.http.get<SeriesApi[]>(`${this.apiUrl}/series`, {
-      headers: this.headers,
-    });
+    return this.http.get<SeriesApi[]>(`${this.apiUrl}/series`);
   }
 
   loadProfiles(): Observable<Profile[]> {
-    return this.http.get<Profile[]>(`${this.apiUrl}/qualityprofile`, {
-      headers: this.headers,
-    });
+    return this.http.get<Profile[]>(`${this.apiUrl}/qualityprofile`);
   }
 
   loadRootFolder(): Observable<RootFolderApi[]> {
-    return this.http.get<RootFolderApi[]>(`${this.apiUrl}/rootFolder`, {
-      headers: this.headers,
-    });
+    return this.http.get<RootFolderApi[]>(`${this.apiUrl}/rootFolder`);
   }
 
   search(searchText: string): Observable<SeriesApi[]> {
     return this.http
-      .get<SeriesApi[]>(`${this.apiUrl}/series/lookup?term=${searchText}`, {
-        headers: this.headers,
-      })
+      .get<SeriesApi[]>(`${this.apiUrl}/series/lookup?term=${searchText}`)
       .pipe(
         map((results) => {
           if (results.length > 20) {
